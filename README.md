@@ -18,4 +18,4 @@ The Debugger currently supports testing of the following services:
 
 
 ----
-It was originally developed as a tool for Baylor's National Collegiate Cyber Defense Competition team.
+CCDC-Debugger was originally developed as a tool for Baylor's National Collegiate Cyber Defense Competition team.

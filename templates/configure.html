@@ -63,11 +63,55 @@
           {% endfor %}
           </tbody>
         </table>
-        <form>
-          <large id="addTeamHeader" class="form-control">Add a new team</large>
-        </forms>
-      </div>
+        <form action = '/team/add' method = post>
+          <div class="form-group">
+            {{ forms['addTeamForm'].team_name.label }} {{ forms['addTeamForm'].team_name }} {{ forms['addTeamForm'].submit }}
+          </div>
+        </form>
 
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Service Name</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for service in execute_db_query('select * from service where service_active=1') %}
+            {% if execute_db_query('select * from poll ORDER BY poll_time DESC LIMIT 1')[0]['score'] == 0 %}
+            <tr class='danger'>
+            {% else %}
+            <tr class='success'>
+            {% endif %}
+              <td>{{ service['service_name'] }}</td>
+              <td>{{ execute_db_query('select sum(poll_score) as s from poll join service on (poll.service_id = service.service_id) where service.service_id = ?', [service['service_id']])[0]['s'] }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+        <form action = '/service/dns/add' method = post>
+          <div class="form-group">
+            {{ forms['addDNSServiceForm'].team_name.label }} {{ forms['addDNSServiceForm'].team_name }}<br>
+            {{ forms['addDNSServiceForm'].service_name.label }} {{ forms['addDNSServiceForm'].service_name }}<br>
+            {{ forms['addDNSServiceForm'].service_connection.label }} {{ forms['addDNSServiceForm'].service_connection }}<br>
+            {{ forms['addDNSServiceForm'].service_request.label }} {{ forms['addDNSServiceForm'].service_request }}<br>
+            {{ forms['addDNSServiceForm'].service_expected_result.label }} {{ forms['addDNSServiceForm'].service_expected_result }}<br>
+            {{ forms['addDNSServiceForm'].submit }}
+          </div>
+        </form>
+
+        <form action = '/service/web/add' method = post>
+          <div class="form-group">
+            {{ forms['addWebServiceForm'].team_name.label }} {{ forms['addWebServiceForm'].team_name }}<br>
+            {{ forms['addWebServiceForm'].service_name.label }} {{ forms['addWebServiceForm'].service_name }}<br>
+            {{ forms['addWebServiceForm'].service_url.label }} {{ forms['addWebServiceForm'].service_url }}<br>
+            {{ forms['addWebServiceForm'].service_file.label }} {{ forms['addWebServiceForm'].service_file }}<br>
+            {{ forms['addWebServiceForm'].submit }}
+          </div>
+        </form>
+
+      </div>
     </div><!-- /.container -->
 
 
