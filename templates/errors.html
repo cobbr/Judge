@@ -34,64 +34,37 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="scoreboard">Scoreboard</a></li>
+            <li><a href="scoreboard">Scoreboard</a></li>
             <li><a href="configure">Configure</a></li>
-            <li><a href="errors">Errors</a></li>
+            <li class="active"><a href="errors">Errors</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="starter-template">
-      <h1>Scoreboard</h1>
-      <div class="container"> 
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th>Team Name</th>
-              <th>Score</th>
-              <th>Possible Score</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for team in execute_db_query('select team.team_name, team.team_id, sum(poll_score) as s from team join service on(team.team_id=service.team_id) join poll on(poll.service_id=service.service_id) group by team.team_name, team.team_id order by s') %}
-            <tr>
-              <td>{{ loop.index }}. {{ team['team_name'] }}</td>
-              <td>{{ team['s'] }}</td>
-              <td>{{ execute_db_query('select count(poll_score) as c FROM poll join service on(poll.service_id=service.service_id) WHERE service.team_id = ?', [team['team_id']])[0]['c'] }}</td>
-            </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-        <br><br><br>
-        <h3 class="starter-template">Team's Detailed Service Scores</h3>
+      <h1>Current Errors</h1>
+      <div class="container">
         {% for team in execute_db_query('select * from team') %}
+        <h3 class="starter-template">{{ team['team_name'] }}</h3>
         <table class="table table-condensed">
-          <h3>{{ team['team_name'] }}</h3>
           <thead>
             <tr>
               <th>Service Name</th>
-              <th>Score</th>
-              <th>Possible Score</th>
+              <th>Error Message</th>
             </tr>
           </thead>
           <tbody>
-          {% for service in execute_db_query('select * from service where service.team_id = ?', [team['team_id']]) %}
+            {% for service in execute_db_query('select * from service as s join team as t on(s.team_id=t.team_id) where t.team_id = ? and 0 = (select poll_score from poll where poll.service_id = s.service_id order by poll_time DESC LIMIT 1)', [team['team_id']]) %}
             <tr>
               <td>{{ service['service_name'] }}</td>
-              <td>{{ execute_db_query('select sum(poll_score) as s FROM poll WHERE poll.service_id = ?', [service['service_id']])[0]['s'] }}</td>
-              <td>{{ execute_db_query('select count(poll_score) as c FROM poll WHERE poll.service_id= ?', [service['service_id']])[0]['c'] }}</td>
+              <td>{{ execute_db_query('select error_message from error join service on(error.service_id = service.service_id) WHERE service.service_id = ? ORDER BY error_time DESC LIMIT 1', [service['service_id']])[0]['error_message'] }}</td>
             </tr>
           {% endfor %}
-            <tr>
-              <td><b>Total</b></td>
-              <td><b>{{ execute_db_query('select sum(poll_score) as s FROM poll join service on(poll.service_id = service.service_id) WHERE service.team_id = ?', [team['team_id']])[0]['s'] }}</b></td>
-              <td><b>{{ execute_db_query('select count(poll_score) as c FROM poll join service on(poll.service_id = service.service_id) WHERE service.team_id = ?', [team['team_id']])[0]['c'] }}</b></td>
-            </tr>
           </tbody>
         </table>
         {% endfor %}
-      </div><!-- /.container -->
+      </div>
     <div>
 
     <!-- Bootstrap core JavaScript

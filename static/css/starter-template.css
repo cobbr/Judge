@@ -1,8 +1,13 @@
 body {
   padding-top: 50px;
 }
+td {
+  white-space:pre
+}
 .starter-template {
   padding: 40px 15px;
   text-align: center;
 }
-
+.container {
+  text-align: left;
+}

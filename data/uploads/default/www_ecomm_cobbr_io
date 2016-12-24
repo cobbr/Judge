@@ -1,0 +1,704 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb" >
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="joomla, Joomla" />
+  <meta name="description" content="Joomla! - the dynamic portal engine and content management system" />
+  <meta name="generator" content="Joomla! 1.5 - Open Source Content Management" />
+  <title>Welcome to the Frontpage</title>
+  <link href="/index.php?format=feed&amp;type=rss" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+  <link href="/index.php?format=feed&amp;type=atom" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
+  <link href="/templates/rhuk_milkyway/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <script type="text/javascript" src="/media/system/js/mootools.js"></script>
+  <script type="text/javascript" src="/media/system/js/caption.js"></script>
+
+
+<link rel="stylesheet" href="/templates/system/css/system.css" type="text/css" />
+<link rel="stylesheet" href="/templates/system/css/general.css" type="text/css" />
+<link rel="stylesheet" href="/templates/rhuk_milkyway/css/template.css" type="text/css" />
+<link rel="stylesheet" href="/templates/rhuk_milkyway/css/blue.css" type="text/css" />
+<link rel="stylesheet" href="/templates/rhuk_milkyway/css/blue_bg.css" type="text/css" />
+<!--[if lte IE 6]>
+<link href="/templates/rhuk_milkyway/css/ieonly.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+</head>
+<body id="page_bg" class="color_blue bg_blue width_fmax">
+<a name="up" id="up"></a>
+<div class="center" align="center">
+	<div id="wrapper">
+		<div id="wrapper_r">
+			<div id="header">
+				<div id="header_l">
+					<div id="header_r">
+						<div id="logo"></div>
+						
+
+
+<table class="contentpaneopen">
+	<tr>
+		<td valign="top" ><p>The one thing about a Web site, it always changes! Joomla! makes it easy to add Articles, content, images, videos, and more. Site administrators can edit and manage content 'in-context' by clicking the 'Edit' link. Webmasters can also edit content through a graphical Control Panel that gives you complete control over your site.</p></td>
+	</tr>
+	<tr>
+        <td valign="top" >
+
+       		</td>
+     </tr>
+</table>
+
+					</div>
+				</div>
+			</div>
+
+			<div id="tabarea">
+				<div id="tabarea_l">
+					<div id="tabarea_r">
+						<div id="tabmenu">
+						<table cellpadding="0" cellspacing="0" class="pill">
+							<tr>
+								<td class="pill_l">&nbsp;</td>
+								<td class="pill_m">
+								<div id="pillmenu">
+									<ul id="mainlevel-nav"><li><a href="/index.php?option=com_content&amp;view=article&amp;id=25&amp;Itemid=28" class="mainlevel-nav" >About Joomla!</a></li><li><a href="/index.php?option=com_content&amp;view=article&amp;id=22&amp;Itemid=29" class="mainlevel-nav" >Features</a></li><li><a href="/index.php?option=com_newsfeeds&amp;view=newsfeed&amp;id=1&amp;feedid=1&amp;Itemid=18" class="mainlevel-nav" >News</a></li><li><a href="/index.php?option=com_content&amp;view=article&amp;id=27&amp;Itemid=30" class="mainlevel-nav" >The Community</a></li></ul>
+								</div>
+								</td>
+								<td class="pill_r">&nbsp;</td>
+							</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="search">
+				<form action="index.php" method="post">
+	<div class="search">
+		<input name="searchword" id="mod_search_searchword" maxlength="20" alt="Search" class="inputbox" type="text" size="20" value="search..."  onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value=='search...') this.value='';" />	</div>
+	<input type="hidden" name="task"   value="search" />
+	<input type="hidden" name="option" value="com_search" />
+</form>
+			</div>
+
+			<div id="pathway">
+				<span class="breadcrumbs pathway">
+Home</span>
+
+			</div>
+
+			<div class="clr"></div>
+
+			<div id="whitebox">
+				<div id="whitebox_t">
+					<div id="whitebox_tl">
+						<div id="whitebox_tr"></div>
+					</div>
+				</div>
+
+				<div id="whitebox_m">
+					<div id="area">
+									
+
+						<div id="leftcolumn">
+															<div class="module_menu">
+			<div>
+				<div>
+					<div>
+													<h3>Main Menu</h3>
+																</div>
+				</div>
+			</div>
+		</div>
+			<div class="module_menu">
+			<div>
+				<div>
+					<div>
+													<h3>Resources</h3>
+																</div>
+				</div>
+			</div>
+		</div>
+			<div class="module_menu">
+			<div>
+				<div>
+					<div>
+													<h3>Key Concepts</h3>
+																</div>
+				</div>
+			</div>
+		</div>
+			<div class="module">
+			<div>
+				<div>
+					<div>
+													<h3>Login Form</h3>
+											<form action="/index.php" method="post" name="login" id="form-login" >
+		<fieldset class="input">
+	<p id="form-login-username">
+		<label for="modlgn_username">Username</label><br />
+		<input id="modlgn_username" type="text" name="username" class="inputbox" alt="username" size="18" />
+	</p>
+	<p id="form-login-password">
+		<label for="modlgn_passwd">Password</label><br />
+		<input id="modlgn_passwd" type="password" name="passwd" class="inputbox" size="18" alt="password" />
+	</p>
+		<p id="form-login-remember">
+		<label for="modlgn_remember">Remember Me</label>
+		<input id="modlgn_remember" type="checkbox" name="remember" class="inputbox" value="yes" alt="Remember Me" />
+	</p>
+		<input type="submit" name="Submit" class="button" value="Login" />
+	</fieldset>
+	<ul>
+		<li>
+			<a href="/index.php?option=com_user&amp;view=reset">
+			Forgot your password?</a>
+		</li>
+		<li>
+			<a href="/index.php?option=com_user&amp;view=remind">
+			Forgot your username?</a>
+		</li>
+				<li>
+			<a href="/index.php?option=com_user&amp;task=register">
+				Create an account</a>
+		</li>
+			</ul>
+	
+	<input type="hidden" name="option" value="com_user" />
+	<input type="hidden" name="task" value="login" />
+	<input type="hidden" name="return" value="Lw==" />
+	<input type="hidden" name="e8bde2b3c62e0a95efd48cd915d71855" value="1" /></form>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+												</div>
+
+												<div id="maincolumn">
+																					<table class="nopad user1user2">
+									<tr valign="top">
+																					<td>
+														<div class="moduletable">
+					<h3>Latest News</h3>
+					<ul class="latestnews">
+	<li class="latestnews">
+		<a href="/index.php?option=com_content&amp;view=article&amp;id=5:joomla-license-guidelines&amp;catid=25:the-project&amp;Itemid=2" class="latestnews">
+			Joomla! License Guidelines</a>
+	</li>
+	<li class="latestnews">
+		<a href="/index.php?option=com_content&amp;view=article&amp;id=24:content-layouts&amp;catid=29:the-cms&amp;Itemid=38" class="latestnews">
+			Content Layouts</a>
+	</li>
+	<li class="latestnews">
+		<a href="/index.php?option=com_content&amp;view=article&amp;id=27:the-joomla-community&amp;catid=30:the-community&amp;Itemid=30" class="latestnews">
+			The Joomla! Community</a>
+	</li>
+	<li class="latestnews">
+		<a href="/index.php?option=com_content&amp;view=article&amp;id=1:welcome-to-joomla&amp;catid=1:latest-news&amp;Itemid=50" class="latestnews">
+			Welcome to Joomla!</a>
+	</li>
+	<li class="latestnews">
+		<a href="/index.php?option=com_content&amp;view=article&amp;id=42:newsflash-4&amp;catid=3:newsflash" class="latestnews">
+			Newsflash 4</a>
+	</li>
+</ul>		</div>
+	
+											</td>
+																															<td class="greyline">&nbsp;</td>
+																															<td>
+														<div class="moduletable">
+					<h3>Popular</h3>
+					<ul class="mostread">
+	<li class="mostread">
+		<a href="/index.php?option=com_content&amp;view=article&amp;id=19:joomla-overview&amp;catid=29:the-cms&amp;Itemid=27" class="mostread">
+			Joomla! Overview</a>
+	</li>
+	<li class="mostread">
+		<a href="/index.php?option=com_content&amp;view=article&amp;id=26:extensions&amp;catid=29:the-cms&amp;Itemid=40" class="mostread">
+			Extensions</a>
+	</li>
+	<li class="mostread">
+		<a href="/index.php?option=com_content&amp;view=article&amp;id=5:joomla-license-guidelines&amp;catid=25:the-project&amp;Itemid=2" class="mostread">
+			Joomla! License Guidelines</a>
+	</li>
+	<li class="mostread">
+		<a href="/index.php?option=com_content&amp;view=article&amp;id=1:welcome-to-joomla&amp;catid=1:latest-news&amp;Itemid=50" class="mostread">
+			Welcome to Joomla!</a>
+	</li>
+	<li class="mostread">
+		<a href="/index.php?option=com_content&amp;view=article&amp;id=22:whats-new-in-15&amp;catid=29:the-cms&amp;Itemid=29" class="mostread">
+			What's New in 1.5?</a>
+	</li>
+</ul>		</div>
+	
+											</td>
+																			</tr>
+								</table>
+
+								<div id="maindivider"></div>
+							
+							<table class="nopad">
+								<tr valign="top">
+									<td>
+										<div class="componentheading">
+	Welcome to the Frontpage</div>
+<table class="blog" cellpadding="0" cellspacing="0">
+<tr>
+	<td valign="top">
+					<div>
+		
+<table class="contentpaneopen">
+<tr>
+		<td class="contentheading" width="100%">
+					Joomla! Community Portal			</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?view=article&amp;catid=1:latest-news&amp;id=45:joomla-community-portal&amp;format=pdf" title="PDF" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/pdf_button.png" alt="PDF"  /></a>	</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?view=article&amp;catid=1:latest-news&amp;id=45:joomla-community-portal&amp;tmpl=component&amp;print=1&amp;layout=default&amp;page=" title="Print" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/printButton.png" alt="Print"  /></a>	</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?option=com_mailto&amp;tmpl=component&amp;link=aHR0cDovLzE3Mi4yNS4yMS4xMS9pbmRleC5waHA/b3B0aW9uPWNvbV9jb250ZW50JnZpZXc9YXJ0aWNsZSZpZD00NTpqb29tbGEtY29tbXVuaXR5LXBvcnRhbCZjYXRpZD0xOmxhdGVzdC1uZXdzJkl0ZW1pZD01MA==" title="E-mail" onclick="window.open(this.href,'win2','width=400,height=350,menubar=yes,resizable=yes'); return false;"><img src="/images/M_images/emailButton.png" alt="E-mail"  /></a>	</td>
+		</tr>
+</table>
+<table class="contentpaneopen">
+
+<tr>
+	<td width="70%"  valign="top" colspan="2">
+		<span class="small">
+			Written by Administrator		</span>
+		&nbsp;&nbsp;
+	</td>
+</tr>
+
+<tr>
+	<td valign="top" colspan="2" class="createdate">
+		Saturday, 07 July 2007 09:54	</td>
+</tr>
+
+
+<tr>
+<td valign="top" colspan="2">
+<p>The <a href="http://community.joomla.org/" target="_blank" title="Joomla! Community Portal">Joomla! Community Portal</a> is now online. There, you will find a constant source of information about the activities of contributors powering the Joomla! Project. Learn about <a href="http://community.joomla.org/events.html" target="_blank" title="Joomla! Events">Joomla! Events</a> worldwide, and see if there is a <a href="http://community.joomla.org/user-groups.html" target="_blank" title="Joomla! User Groups">Joomla! User Group</a> nearby.</p><p>The <a href="http://community.joomla.org/magazine.html" target="_blank" title="Joomla! Community Magazine">Joomla! Community Magazine</a> promises an interesting overview of feature articles, community accomplishments, learning topics, and project updates each month. Also, check out <a href="http://community.joomla.org/connect.html" target="_blank" title="JoomlaConnect">JoomlaConnect&#0153;</a>. This aggregated RSS feed brings together Joomla! news from all over the world in your language. Get the latest and greatest by clicking <a href="http://community.joomla.org/connect.html" target="_blank" title="JoomlaConnect">here</a>.</p></td>
+</tr>
+
+<tr>
+	<td colspan="2"  class="modifydate">
+		Last Updated on Saturday, 07 July 2007 09:54	</td>
+</tr>
+
+
+</table>
+<span class="article_separator">&nbsp;</span>
+		</div>
+		</td>
+</tr>
+
+<tr>
+	<td valign="top">
+		<table width="100%"  cellpadding="0" cellspacing="0">
+		<tr>
+										<td valign="top" width="50%" class="article_column">
+				
+<table class="contentpaneopen">
+<tr>
+		<td class="contentheading" width="100%">
+					We are Volunteers			</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?view=article&amp;catid=1:latest-news&amp;id=6:we-are-volunteers&amp;format=pdf" title="PDF" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/pdf_button.png" alt="PDF"  /></a>	</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?view=article&amp;catid=1:latest-news&amp;id=6:we-are-volunteers&amp;tmpl=component&amp;print=1&amp;layout=default&amp;page=" title="Print" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/printButton.png" alt="Print"  /></a>	</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?option=com_mailto&amp;tmpl=component&amp;link=aHR0cDovLzE3Mi4yNS4yMS4xMS9pbmRleC5waHA/b3B0aW9uPWNvbV9jb250ZW50JnZpZXc9YXJ0aWNsZSZpZD02OndlLWFyZS12b2x1bnRlZXJzJmNhdGlkPTE6bGF0ZXN0LW5ld3MmSXRlbWlkPTUw" title="E-mail" onclick="window.open(this.href,'win2','width=400,height=350,menubar=yes,resizable=yes'); return false;"><img src="/images/M_images/emailButton.png" alt="E-mail"  /></a>	</td>
+		</tr>
+</table>
+<table class="contentpaneopen">
+
+<tr>
+	<td width="70%"  valign="top" colspan="2">
+		<span class="small">
+			Written by Administrator		</span>
+		&nbsp;&nbsp;
+	</td>
+</tr>
+
+<tr>
+	<td valign="top" colspan="2" class="createdate">
+		Saturday, 07 July 2007 09:54	</td>
+</tr>
+
+
+<tr>
+<td valign="top" colspan="2">
+<p>The Joomla Core Team and Working Group members are volunteer developers, designers, administrators and managers who have worked together to take Joomla! to new heights in its relatively short life. Joomla! has some wonderfully talented people taking Open Source concepts to the forefront of industry standards.  Joomla! 1.5 is a major leap forward and represents the most exciting Joomla! release in the history of the project. </p></td>
+</tr>
+
+<tr>
+	<td colspan="2"  class="modifydate">
+		Last Updated on Saturday, 07 July 2007 09:54	</td>
+</tr>
+
+
+</table>
+<span class="article_separator">&nbsp;</span>
+
+<table class="contentpaneopen">
+<tr>
+		<td class="contentheading" width="100%">
+					Joomla! License Guidelines			</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?view=article&amp;catid=25:the-project&amp;id=5:joomla-license-guidelines&amp;format=pdf" title="PDF" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/pdf_button.png" alt="PDF"  /></a>	</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?view=article&amp;catid=25:the-project&amp;id=5:joomla-license-guidelines&amp;tmpl=component&amp;print=1&amp;layout=default&amp;page=" title="Print" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/printButton.png" alt="Print"  /></a>	</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?option=com_mailto&amp;tmpl=component&amp;link=aHR0cDovLzE3Mi4yNS4yMS4xMS9pbmRleC5waHA/b3B0aW9uPWNvbV9jb250ZW50JnZpZXc9YXJ0aWNsZSZpZD01Ompvb21sYS1saWNlbnNlLWd1aWRlbGluZXMmY2F0aWQ9MjU6dGhlLXByb2plY3QmSXRlbWlkPTI=" title="E-mail" onclick="window.open(this.href,'win2','width=400,height=350,menubar=yes,resizable=yes'); return false;"><img src="/images/M_images/emailButton.png" alt="E-mail"  /></a>	</td>
+		</tr>
+</table>
+<table class="contentpaneopen">
+
+<tr>
+	<td width="70%"  valign="top" colspan="2">
+		<span class="small">
+			Written by Administrator		</span>
+		&nbsp;&nbsp;
+	</td>
+</tr>
+
+<tr>
+	<td valign="top" colspan="2" class="createdate">
+		Wednesday, 20 August 2008 10:11	</td>
+</tr>
+
+
+<tr>
+<td valign="top" colspan="2">
+<p>This Web site is powered by <a href="http://joomla.org/" target="_blank" title="Joomla!">Joomla!</a> The software and default templates on which it runs are Copyright 2005-2008 <a href="http://www.opensourcematters.org/" target="_blank" title="Open Source Matters">Open Source Matters</a>. The sample content distributed with Joomla! is licensed under the <a href="http://docs.joomla.org/JEDL" target="_blank" title="Joomla! Electronic Document License">Joomla! Electronic Documentation License.</a> All data entered into this Web site and templates added after installation, are copyrighted by their respective copyright owners.</p> <p>If you want to distribute, copy, or modify Joomla!, you are welcome to do so under the terms of the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html#SEC1" target="_blank" title="GNU General Public License"> GNU General Public License</a>. If you are unfamiliar with this license, you might want to read <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html#SEC4" target="_blank" title="How To Apply These Terms To Your Program">'How To Apply These Terms To Your Program'</a> and the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0-faq.html" target="_blank" title="GNU General Public License FAQ">'GNU General Public License FAQ'</a>.</p> <p>The Joomla! licence has always been GPL.</p></td>
+</tr>
+
+<tr>
+	<td colspan="2"  class="modifydate">
+		Last Updated on Wednesday, 20 August 2008 10:11	</td>
+</tr>
+
+
+</table>
+<span class="article_separator">&nbsp;</span>
+</td>
+														<td valign="top" width="50%" class="article_column column_separator">
+				
+<table class="contentpaneopen">
+<tr>
+		<td class="contentheading" width="100%">
+					Joomla! Security Strike Team			</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?view=article&amp;catid=1:latest-news&amp;id=44:joomla-security-strike-team&amp;format=pdf" title="PDF" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/pdf_button.png" alt="PDF"  /></a>	</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?view=article&amp;catid=1:latest-news&amp;id=44:joomla-security-strike-team&amp;tmpl=component&amp;print=1&amp;layout=default&amp;page=" title="Print" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/printButton.png" alt="Print"  /></a>	</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?option=com_mailto&amp;tmpl=component&amp;link=aHR0cDovLzE3Mi4yNS4yMS4xMS9pbmRleC5waHA/b3B0aW9uPWNvbV9jb250ZW50JnZpZXc9YXJ0aWNsZSZpZD00NDpqb29tbGEtc2VjdXJpdHktc3RyaWtlLXRlYW0mY2F0aWQ9MTpsYXRlc3QtbmV3cyZJdGVtaWQ9NTA=" title="E-mail" onclick="window.open(this.href,'win2','width=400,height=350,menubar=yes,resizable=yes'); return false;"><img src="/images/M_images/emailButton.png" alt="E-mail"  /></a>	</td>
+		</tr>
+</table>
+<table class="contentpaneopen">
+
+<tr>
+	<td width="70%"  valign="top" colspan="2">
+		<span class="small">
+			Written by Administrator		</span>
+		&nbsp;&nbsp;
+	</td>
+</tr>
+
+<tr>
+	<td valign="top" colspan="2" class="createdate">
+		Saturday, 07 July 2007 09:54	</td>
+</tr>
+
+
+<tr>
+<td valign="top" colspan="2">
+<p>The Joomla! Project has assembled a top-notch team of experts to form the new Joomla! Security Strike Team. This new team will solely focus on investigating and resolving security issues. Instead of working in relative secrecy, the JSST will have a strong public-facing presence at the <a href="http://developer.joomla.org/security.html" target="_blank" title="Joomla! Security Center">Joomla! Security Center</a>.</p></td>
+</tr>
+
+<tr>
+	<td colspan="2"  class="modifydate">
+		Last Updated on Saturday, 07 July 2007 09:54	</td>
+</tr>
+
+<tr>
+	<td  colspan="2">
+		<a href="/index.php?option=com_content&amp;view=article&amp;id=44:joomla-security-strike-team&amp;catid=1:latest-news&amp;Itemid=50" class="readon">
+			Read more...</a>
+	</td>
+</tr>
+
+</table>
+<span class="article_separator">&nbsp;</span>
+
+<table class="contentpaneopen">
+<tr>
+		<td class="contentheading" width="100%">
+					Millions of Smiles			</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?view=article&amp;catid=1:latest-news&amp;id=9:millions-of-smiles&amp;format=pdf" title="PDF" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/pdf_button.png" alt="PDF"  /></a>	</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?view=article&amp;catid=1:latest-news&amp;id=9:millions-of-smiles&amp;tmpl=component&amp;print=1&amp;layout=default&amp;page=" title="Print" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/printButton.png" alt="Print"  /></a>	</td>
+	
+		<td align="right" width="100%" class="buttonheading">
+	<a href="/index.php?option=com_mailto&amp;tmpl=component&amp;link=aHR0cDovLzE3Mi4yNS4yMS4xMS9pbmRleC5waHA/b3B0aW9uPWNvbV9jb250ZW50JnZpZXc9YXJ0aWNsZSZpZD05Om1pbGxpb25zLW9mLXNtaWxlcyZjYXRpZD0xOmxhdGVzdC1uZXdzJkl0ZW1pZD01MA==" title="E-mail" onclick="window.open(this.href,'win2','width=400,height=350,menubar=yes,resizable=yes'); return false;"><img src="/images/M_images/emailButton.png" alt="E-mail"  /></a>	</td>
+		</tr>
+</table>
+<table class="contentpaneopen">
+
+<tr>
+	<td width="70%"  valign="top" colspan="2">
+		<span class="small">
+			Written by Administrator		</span>
+		&nbsp;&nbsp;
+	</td>
+</tr>
+
+<tr>
+	<td valign="top" colspan="2" class="createdate">
+		Saturday, 07 July 2007 09:54	</td>
+</tr>
+
+
+<tr>
+<td valign="top" colspan="2">
+<p>The Joomla! team has millions of good reasons to be smiling about the Joomla! 1.5. In its current incarnation, it's had millions of downloads, taking it to an unprecedented level of popularity.  The new code base is almost an entire re-factor of the old code base.  The user experience is still extremely slick but for developers the API is a dream.  A proper framework for real PHP architects seeking the best of the best.</p><p>If you're a former Mambo User or a 1.0 series Joomla! User, 1.5 is the future of CMSs for a number of reasons.  It's more powerful, more flexible, more secure, and intuitive.  Our developers and interface designers have worked countless hours to make this the most exciting release in the content management system sphere.</p><p>Go on ... get your FREE copy of Joomla! today and spread the word about this benchmark project. </p></td>
+</tr>
+
+<tr>
+	<td colspan="2"  class="modifydate">
+		Last Updated on Saturday, 07 July 2007 09:54	</td>
+</tr>
+
+
+</table>
+<span class="article_separator">&nbsp;</span>
+</td>
+								
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+		<div class="blog_more">
+			<div>
+	<strong>More Articles...</strong>
+</div>
+<ul>
+	<li>
+		<a class="blogsection" href="/index.php?option=com_content&amp;view=article&amp;id=30:what-languages-are-supported-by-joomla-15&amp;catid=32:languages&amp;Itemid=47">
+			What languages are supported by Joomla! 1.5?</a>
+	</li>
+	<li>
+		<a class="blogsection" href="/index.php?option=com_content&amp;view=article&amp;id=16:only-one-edit-window-how-do-i-create-read-more&amp;catid=28:current-users&amp;Itemid=44">
+			Only one edit window! How do I create "Read more..."?</a>
+	</li>
+</ul>		</div>
+	</td>
+</tr>
+
+<tr>
+	<td valign="top" align="center">
+		<span class="pagination"><span>&laquo;</span><span>Start</span><span>Prev</span><strong><span>1</span></strong><strong><a href="/index.php?limitstart=5" title="2">2</a></strong><a href="/index.php?limitstart=5" title="Next">Next</a><a href="/index.php?limitstart=5" title="End">End</a><span>&raquo;</span></span>		<br /><br />
+	</td>
+</tr>
+<tr>
+	<td valign="top" align="center">
+		Page 1 of 2	</td>
+</tr>
+</table>
+
+												<div class="moduletable">
+					<div class="bannergroup">
+
+<div class="banneritem"><a href="/index.php?option=com_banners&amp;task=click&amp;bid=8" target="_blank"><img src="http://172.25.21.11/images/banners/shop-ad-books.jpg" alt="Banner" /></a><div class="clr"></div>
+	</div>
+
+</div>		</div>
+			<div class="moduletable">
+					<div>Copyright &#169; 2016 Ecommerce. All Rights Reserved.</div>
+<div><a href="http://www.joomla.org">Joomla!</a> is Free Software released under the <a href="http://www.gnu.org/licenses/gpl-2.0.html">GNU/GPL License.</a></div>		</div>
+	
+									</td>
+																			<td class="greyline">&nbsp;</td>
+										<td width="170">
+													<div class="moduletable">
+					<h3>Polls</h3>
+					<form action="index.php" method="post" name="form2">
+
+<table width="95%" border="0" cellspacing="0" cellpadding="1" align="center" class="poll">
+<thead>
+	<tr>
+		<td style="font-weight: bold;">
+			Joomla! is used for?		</td>
+	</tr>
+</thead>
+	<tr>
+		<td align="center">
+			<table class="pollstableborder" cellspacing="0" cellpadding="0" border="0">
+							<tr>
+					<td class="sectiontableentry2" valign="top">
+						<input type="radio" name="voteid" id="voteid1" value="1" alt="1" />
+					</td>
+					<td class="sectiontableentry2" valign="top">
+						<label for="voteid1">
+							Community Sites						</label>
+					</td>
+				</tr>
+											<tr>
+					<td class="sectiontableentry1" valign="top">
+						<input type="radio" name="voteid" id="voteid2" value="2" alt="2" />
+					</td>
+					<td class="sectiontableentry1" valign="top">
+						<label for="voteid2">
+							Public Brand Sites						</label>
+					</td>
+				</tr>
+											<tr>
+					<td class="sectiontableentry2" valign="top">
+						<input type="radio" name="voteid" id="voteid3" value="3" alt="3" />
+					</td>
+					<td class="sectiontableentry2" valign="top">
+						<label for="voteid3">
+							eCommerce						</label>
+					</td>
+				</tr>
+											<tr>
+					<td class="sectiontableentry1" valign="top">
+						<input type="radio" name="voteid" id="voteid4" value="4" alt="4" />
+					</td>
+					<td class="sectiontableentry1" valign="top">
+						<label for="voteid4">
+							Blogs						</label>
+					</td>
+				</tr>
+											<tr>
+					<td class="sectiontableentry2" valign="top">
+						<input type="radio" name="voteid" id="voteid5" value="5" alt="5" />
+					</td>
+					<td class="sectiontableentry2" valign="top">
+						<label for="voteid5">
+							Intranets						</label>
+					</td>
+				</tr>
+											<tr>
+					<td class="sectiontableentry1" valign="top">
+						<input type="radio" name="voteid" id="voteid6" value="6" alt="6" />
+					</td>
+					<td class="sectiontableentry1" valign="top">
+						<label for="voteid6">
+							Photo and Media Sites						</label>
+					</td>
+				</tr>
+											<tr>
+					<td class="sectiontableentry2" valign="top">
+						<input type="radio" name="voteid" id="voteid7" value="7" alt="7" />
+					</td>
+					<td class="sectiontableentry2" valign="top">
+						<label for="voteid7">
+							All of the Above!						</label>
+					</td>
+				</tr>
+										</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div align="center">
+				<input type="submit" name="task_button" class="button" value="Vote" />
+				&nbsp;
+				<input type="button" name="option" class="button" value="Results" onclick="document.location.href='/index.php?option=com_poll&amp;id=14:joomla-is-used-for'" />
+			</div>
+		</td>
+	</tr>
+</table>
+
+	<input type="hidden" name="option" value="com_poll" />
+	<input type="hidden" name="task" value="vote" />
+	<input type="hidden" name="id" value="14" />
+	<input type="hidden" name="e8bde2b3c62e0a95efd48cd915d71855" value="1" /></form>		</div>
+			<div class="moduletable">
+					<h3>Who's Online</h3>
+					 We have&nbsp;34 guests&nbsp;online		</div>
+			<div class="moduletable_text">
+					<h3>Advertisement</h3>
+					<div class="bannergroup_text">
+
+	<div class="bannerheader">Featured Links:</div>
+<div class="banneritem_text"><a href="/index.php?option=com_banners&amp;task=click&amp;bid=3" target="_blank">Joomla!</a>
+<br/>
+Joomla! The most popular and widely used Open Source CMS Project in the world.<div class="clr"></div>
+	</div>
+<div class="banneritem_text"><a href="/index.php?option=com_banners&amp;task=click&amp;bid=4" target="_blank">JoomlaCode</a>
+<br/>
+JoomlaCode, development and distribution made easy.<div class="clr"></div>
+	</div>
+<div class="banneritem_text"><a href="/index.php?option=com_banners&amp;task=click&amp;bid=5" target="_blank">Joomla! Extensions</a>
+<br/>
+Joomla! Components, Modules, Plugins and Languages by the bucket load.<div class="clr"></div>
+	</div>
+<div class="banneritem_text"><a href="/index.php?option=com_banners&amp;task=click&amp;bid=6" target="_blank">Joomla! Shop</a>
+<br/>
+For all your Joomla! merchandise.<div class="clr"></div>
+	</div>
+
+	<div class="bannerfooter_text">
+		 <a href="http://www.joomla.org">Ads by Joomla!</a>	</div>
+</div>		</div>
+	
+										</td>
+																	</tr>
+							</table>
+
+						</div>
+						<div class="clr"></div>
+					</div>
+					<div class="clr"></div>
+				</div>
+
+				<div id="whitebox_b">
+					<div id="whitebox_bl">
+						<div id="whitebox_br"></div>
+					</div>
+				</div>
+			</div>
+
+			<div id="footerspacer"></div>
+		</div>
+
+		<div id="footer">
+			<div id="footer_l">
+				<div id="footer_r">
+					<p id="syndicate">
+						<a href="/index.php?format=feed&amp;type=rss">
+	<img src="/images/M_images/livemarks.png" alt="feed-image"  /> <span>Feed Entries</span></a>
+					</p>
+					<p id="power_by">
+	 				 	Powered by <a href="http://www.joomla.org">Joomla!</a>.
+						valid <a href="http://validator.w3.org/check/referer">XHTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>
