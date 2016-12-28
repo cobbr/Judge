@@ -86,13 +86,11 @@
             </thead>
             <tbody>
             {% for service in execute_db_query('select * from service where service_active=1') %}
-              {% for row in execute_db_query('select poll_score from poll where service_id = ? ORDER BY poll_time DESC LIMIT 1', [service['service_id']]) %}
-                {% if loop.first and row[0]['poll_score'] == 0 %}
-                  <tr class='danger'>
-                {% else %}
-                  <tr class='success'>
-                {% endif %}
-              {% endfor %}
+              {% if execute_db_query('select poll_score from poll where service_id = ? ORDER BY poll_time DESC LIMIT 1', [service['service_id']])[0]['poll_score'] == 0 %}
+                <tr class='danger'>
+              {% else %}
+                <tr class='success'>
+              {% endif %}
                 <td>{{ execute_db_query('select team_name from team where team_id = ?', [service['team_id']])[0]['team_name'] }}</td>
                 <td>{{ service['service_name'] }}</td>
                 <td>{{ execute_db_query('select sum(poll_score) as s from poll join service on (poll.service_id = service.service_id) where service.service_id = ?', [service['service_id']])[0]['s'] }}</td>

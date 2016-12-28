@@ -1,0 +1,4 @@
+flask
+flask_wtf
+dnspython
+requests

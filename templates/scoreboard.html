@@ -54,7 +54,7 @@
             </tr>
           </thead>
           <tbody>
-          {% for team in execute_db_query('select team.team_name, team.team_id, sum(poll_score) as s from team join service on(team.team_id=service.team_id) join poll on(poll.service_id=service.service_id) group by team.team_name, team.team_id order by s') %}
+          {% for team in execute_db_query('select team.team_name, team.team_id, sum(poll_score) as s from team join service on(team.team_id=service.team_id) join poll on(poll.service_id=service.service_id) group by team.team_name, team.team_id order by s DESC') %}
             <tr>
               <td>{{ loop.index }}. {{ team['team_name'] }}</td>
               <td>{{ team['s'] }}</td>
@@ -77,7 +77,11 @@
           </thead>
           <tbody>
           {% for service in execute_db_query('select * from service where service.team_id = ?', [team['team_id']]) %}
-            <tr>
+            {% if execute_db_query('select poll_score from poll where service_id = ? ORDER BY poll_time DESC LIMIT 1', [service['service_id']])[0]['poll_score'] == 0 %}
+              <tr class='danger'>
+            {% else %}
+              <tr class='success'>
+            {% endif %}
               <td>{{ service['service_name'] }}</td>
               <td>{{ execute_db_query('select sum(poll_score) as s FROM poll WHERE poll.service_id = ?', [service['service_id']])[0]['s'] }}</td>
               <td>{{ execute_db_query('select count(poll_score) as c FROM poll WHERE poll.service_id= ?', [service['service_id']])[0]['c'] }}</td>
