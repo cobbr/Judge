@@ -41,4 +41,4 @@ INSERT INTO service_type(service_type_name) VALUES('dns');
 INSERT INTO service_type(service_type_name) VALUES('http');
 INSERT INTO service_type(service_type_name) VALUES('https');
 INSERT INTO service_type(service_type_name) VALUES('ftp');
-
+INSERT INTO service_type(service_type_name) VALUES('mail');

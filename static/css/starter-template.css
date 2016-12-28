@@ -8,6 +8,10 @@ td {
   padding: 40px 15px;
   text-align: center;
 }
+.form-block {
+  padding: 20px 20px;
+  background-color: rgba(128,128,128,0.1)
+}
 .container {
   text-align: left;
 }
