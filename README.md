@@ -11,10 +11,10 @@ to quickly diagnose service issues.
 ## Services
 
 The Debugger currently supports testing of the following services:
-* HTTP
-* HTTPS
+* HTTP(S)
 * FTP
 * DNS
+* Mail (SMTP for sending emails, POP3 to retrieve mail)
 
 
 ----
