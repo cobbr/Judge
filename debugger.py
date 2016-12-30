@@ -306,8 +306,8 @@ def poll():
                         eresult = upload.read()
                         upload.close()
                         # Only comparing first 10 lines for now. Have no good way to compare dynamic portions of a webpage.
-                        one = eresult.splitlines(1)[0:10]
-                        two = result.splitlines(1)[0:10]
+                        one = eresult.splitlines(0)[0:10]
+                        two = result.splitlines(0)[0:10]
                         if one == two:
                             match = True
                         else:
