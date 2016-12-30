@@ -1,4 +1,5 @@
-python -m pip install -r requirements.txt
+$scriptPath = Split-Path (Get-Variable MyInvocation).Value.MyCommand.Path
+python -m pip install -r $scriptPath\requirements.txt
 $env:FLASK_APP = "debugger.py"
-flask setup
-flask populate
+python -m flask setup
+python -m flask populate
