@@ -300,7 +300,7 @@ def poll():
 
             elif type == 'http' or type == 'https':
                 try:
-                    result = requests.get(type + '://' + server + request, timeout=2).text
+                    result = requests.get(type + '://' + server + request, timeout=2, verify=False).text
                     if os.path.isfile(eresult):
                         upload = open(eresult, 'r')
                         eresult = upload.read()
@@ -315,7 +315,7 @@ def poll():
                             execute_db_query('insert into error(service_id,error_message) values(?,?)', [id, 'HTTP(S) Request result did not match expected. Diff: \n' + ''.join(diff)])
                     else:
                         execute_db_query('insert into error(service_id, error_message) values(?,?)', [id, 'Local filename for expected result: ' + eresult + ' does not exist.'])
-                except requests.exception.RequestException as e:
+                except requests.exceptions.RequestException as e:
                     execute_db_query('insert into error(service_id,error_message) values(?,?)', [id, 'HTTP(S) Request resulted in exception: ' + str(e)]) 
  
             elif type == 'ftp':
