@@ -2,11 +2,11 @@
 
 This project is designed to be a simple, but useful way to quickly debug services on a CCDC (Collegiate Cyber Defense Competition) network.
 
-CCDC-Debugger is a python Flask web application. Services expected to be running within a network environment can be added via the web interface,
-and these chosen services will continually be polled. A score will be tallied based upon results. 
+CCDC-Debugger is a python Flask web application that can be run on Windows or Linux. Services expected to be running within a network environment are added via a web interface,
+and these chosen services are continually polled for functionality. A score is tallied based upon results and displayed in a scoreboard on the web interface.
 
 The main advantage of the Debugger is that it provides detailed information about what tests are failing and why, allowing a team
-to quickly diagnose service issues.
+to quickly discover and diagnose service issues.
 
 ## Services
 
