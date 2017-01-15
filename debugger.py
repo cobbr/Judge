@@ -28,7 +28,7 @@ from werkzeug.utils import secure_filename
 # Application settings
 app = Flask(__name__)
 app.secret_key = 'dev key'
-
+allow_config = False
 
 # Database functions
 def database_create():
@@ -159,10 +159,13 @@ def add_team():
     The AddTeamForm posts to this page. Add a team to the database, and redirect back to the configure page.
     """
     form = AddTeamForm(request.form, csrf_enabled=False)
-    if form.validate():
-        execute_db_query('INSERT INTO team(team_name) VALUES(?)', [form.team_name.data])
+    if allow_config:
+        if form.validate():
+            execute_db_query('INSERT INTO team(team_name) VALUES(?)', [form.team_name.data])
+        else:
+            flash('Form not validated')
     else:
-        flash('Form not validated')
+        flash("Configuration is not allowed on this instance of the Debugger");
     return redirect(url_for('configure'))
 
 @app.route('/team/remove', methods=['POST'])
@@ -171,7 +174,10 @@ def remove_team():
     The RemoveTeamForm posts to this page. Remove a team from the database, and redirect back to the configure page.
     """
     team_id = request.form['team_id']
-    execute_db_query('DELETE from team WHERE team_id = ?', [team_id])
+    if allow_config:
+        execute_db_query('DELETE from team WHERE team_id = ?', [team_id])
+    else:
+        flash("Configuration is not allowed on this instance of the Debugger");
     return redirect(url_for('configure'))
 
 @app.route('/service/dns/add', methods=['POST'])
@@ -180,14 +186,17 @@ def add_dns_service():
     The AddDNSServiceForm posts to this page. Add a DNS service to the database, and redirect back to the configure page.
     """
     form = AddDNSServiceForm(request.form, csrf_enabled=False)
-    choices = [(team['team_id'], team['team_name']) for team in execute_db_query('select team_id, team_name from team')]
-    form.team_name.choices = choices
-    if form.validate():
-        service_type_id = execute_db_query("select service_type_id from service_type where service_type_name = 'dns'")[0]['service_type_id']
-        team_id = form.team_name.data
-        execute_db_query('INSERT INTO service(service_type_id, team_id, service_name, service_connection, service_request, service_expected_result) VALUES(?, ?, ?, ?, ?, ?)', [service_type_id, team_id, form.service_name.data, form.service_connection.data, form.service_request.data, form.service_expected_result.data])
+    if allow_config:
+        choices = [(team['team_id'], team['team_name']) for team in execute_db_query('select team_id, team_name from team')]
+        form.team_name.choices = choices
+        if form.validate():
+            service_type_id = execute_db_query("select service_type_id from service_type where service_type_name = 'dns'")[0]['service_type_id']
+            team_id = form.team_name.data
+            execute_db_query('INSERT INTO service(service_type_id, team_id, service_name, service_connection, service_request, service_expected_result) VALUES(?, ?, ?, ?, ?, ?)', [service_type_id, team_id, form.service_name.data, form.service_connection.data, form.service_request.data, form.service_expected_result.data])
+        else:
+            flash('Form not validated')
     else:
-        flash('Form not validated')
+        flash("Configuration is not allowed on this instance of the Debugger");
     return redirect(url_for('configure'))
 
 @app.route('/service/web/add', methods=['POST'])
@@ -196,25 +205,28 @@ def add_web_service():
     The AddWebServiceForm posts to this page. Add a Web service to the database, and redirect back to the configure page.
     """
     form = AddWebServiceForm(request.form, csrf_enabled=False)
-    choices = [(team['team_id'], team['team_name']) for team in execute_db_query('select team_id, team_name from team')]
-    form.team_name.choices = choices
-    if form.validate():
-        team_id = form.team_name.data
-        service_name = form.service_name.data
-        
-        service_url = urlparse(form.service_url.data)
-        service_type_name = service_url.scheme
-        service_connection = service_url.netloc
+    if allow_config:
+        choices = [(team['team_id'], team['team_name']) for team in execute_db_query('select team_id, team_name from team')]
+        form.team_name.choices = choices
+        if form.validate():
+            team_id = form.team_name.data
+            service_name = form.service_name.data
+            
+            service_url = urlparse(form.service_url.data)
+            service_type_name = service_url.scheme
+            service_connection = service_url.netloc
 
-        filename = secure_filename(form.service_file.data.filename)
-        form.service_file.data.save('data/uploads/' + filename)
-        service_request = service_url.path
-        service_expected_result = filename
-        
-        service_type_id = execute_db_query('select service_type_id from service_type where service_type_name = ?', [service_type_name])[0]['service_type_id']
-        execute_db_query('INSERT INTO service(service_type_id, team_id, service_name, service_connection, service_request, service_expected_result) VALUES(?, ?, ?, ?, ?, ?)', [service_type_id, team_id, service_name, service_connection, service_request, service_expected_result])
+            filename = secure_filename(form.service_file.data.filename)
+            form.service_file.data.save('data/uploads/' + filename)
+            service_request = service_url.path
+            service_expected_result = filename
+            
+            service_type_id = execute_db_query('select service_type_id from service_type where service_type_name = ?', [service_type_name])[0]['service_type_id']
+            execute_db_query('INSERT INTO service(service_type_id, team_id, service_name, service_connection, service_request, service_expected_result) VALUES(?, ?, ?, ?, ?, ?)', [service_type_id, team_id, service_name, service_connection, service_request, service_expected_result])
+        else:
+            flash('Form not validated')
     else:
-        flash('Form not validated')
+        flash("Configuration is not allowed on this instance of the Debugger");
     return redirect(url_for('configure'))
 
 @app.route('/service/mail/add', methods=['POST'])
@@ -223,18 +235,21 @@ def add_mail_service():
     The AddMailServiceForm posts to this page. Add a mail service to the database, and redirect back to the configure page.
     """
     form = AddMailServiceForm(request.form, csrf_enabled=False)
-    choices = [(team['team_id'], team['team_name']) for team in execute_db_query('select team_id, team_name from team')]
-    form.team_name.choices = choices
-    if form.validate():
-        team_id = form.team_name.data
-        service_name = form.service_name.data
-        service_connection = form.service_connection.data
-        service_request = form.from_email.data + ':' + form.to_email.data + ':' + form.service_expected_result.data
-        service_expected_result = form.service_expected_result.data
-        service_type_id = execute_db_query("select service_type_id from service_type where service_type_name = 'mail'")[0]['service_type_id']
-        execute_db_query('INSERT INTO service(service_type_id, team_id, service_name, service_connection, service_request, service_expected_result) VALUES(?, ?, ?, ?, ?, ?)', [service_type_id, team_id, service_name, service_connection, service_request, service_expected_result])
+    if allow_config:
+        choices = [(team['team_id'], team['team_name']) for team in execute_db_query('select team_id, team_name from team')]
+        form.team_name.choices = choices
+        if form.validate():
+            team_id = form.team_name.data
+            service_name = form.service_name.data
+            service_connection = form.service_connection.data
+            service_request = form.from_email.data + ':' + form.to_email.data + ':' + form.service_expected_result.data
+            service_expected_result = form.service_expected_result.data
+            service_type_id = execute_db_query("select service_type_id from service_type where service_type_name = 'mail'")[0]['service_type_id']
+            execute_db_query('INSERT INTO service(service_type_id, team_id, service_name, service_connection, service_request, service_expected_result) VALUES(?, ?, ?, ?, ?, ?)', [service_type_id, team_id, service_name, service_connection, service_request, service_expected_result])
+        else:
+            flash('Form not validated')
     else:
-        flash('Form not validated')
+        flash("Configuration is not allowed on this instance of the Debugger");
     return redirect(url_for('configure'))
 
 @app.route('/service/remove', methods=['POST'])
@@ -242,8 +257,11 @@ def remove_service():
     """
     The RemoveServiceForm posts to this page. Removes a service from the database and redirects back to the configure page.
     """
-    service_id = request.form['service_id']
-    execute_db_query('DELETE from service where service_id = ?', [service_id])
+    if allow_config:
+        service_id = request.form['service_id']
+        execute_db_query('DELETE from service where service_id = ?', [service_id])
+    else:
+        flash("Configuration is not allowed on this instance of the Debugger");
     return redirect(url_for('configure'))
 
 @app.route('/errors')
@@ -286,8 +304,8 @@ def poll():
                 try:
                     resolv = dns.resolver.Resolver()
                     resolv.nameservers = [server]
-                    resolv.timeout = 4
-                    resolv.lifetime = 4
+                    resolv.timeout = 5
+                    resolv.lifetime = 5
                     answers = resolv.query(request, 'A')
                     for rdata in answers:
                         result = rdata.to_text()
@@ -319,7 +337,7 @@ def poll():
                     execute_db_query('insert into error(service_id,error_message) values(?,?)', [id, 'HTTP(S) Request resulted in exception: ' + str(e)]) 
  
             elif type == 'ftp':
-                ftp = FTP(server)
+                ftp = FTP(host=server, timeout=3)
                 ftp.login()
                 resultStringIO = StringIO()
                 ftp.retrbinary('RETR ' + request, resultStringIO.write)
@@ -342,7 +360,7 @@ def poll():
                 msg = request.split(':')[2]
                 smtpFailure = False
                 try:
-                    smtpServer = smtplib.SMTP(server)
+                    smtpServer = smtplib.SMTP(server,timeout=5)
                     smtpServer.sendmail(sender,recipient,msg)
                     smtpServer.quit()
                 except Exception as e:
@@ -350,7 +368,7 @@ def poll():
                     smtpFailure = True
                 if not smtpFailure:
                     try: 
-                        Mailbox = poplib.POP3(server, timeout=15)
+                        Mailbox = poplib.POP3(server, timeout=20)
                         Mailbox.user(sender.split('@')[0])
                         Mailbox.pass_('ccdc')
                         numMessages = len(Mailbox.list()[1])
@@ -375,11 +393,11 @@ def poll():
 
 def poll_forever():
     """
-    Poll all services every 5 seconds.
+    Poll all services every 10 seconds.
     """
     while True:
         try:
-            sleep(5)
+            sleep(10)
             poll()
         except Exception as e:
             print 'poll exception: ' + str(e)
