@@ -29,6 +29,8 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.secret_key = 'dev key'
 allow_config = False
+SRV_TIMEOUT = 5
+
 
 # Database functions
 def database_create():
@@ -304,8 +306,8 @@ def poll():
                 try:
                     resolv = dns.resolver.Resolver()
                     resolv.nameservers = [server]
-                    resolv.timeout = 5
-                    resolv.lifetime = 5
+                    resolv.timeout = SRV_TIMEOUT
+                    resolv.lifetime = SRV_TIMEOUT
                     answers = resolv.query(request, 'A')
                     for rdata in answers:
                         result = rdata.to_text()
@@ -318,7 +320,7 @@ def poll():
 
             elif type == 'http' or type == 'https':
                 try:
-                    result = requests.get(type + '://' + server + request, timeout=2, verify=False).text
+                    result = requests.get(type + '://' + server + request, timeout=SRV_TIMEOUT, verify=False).text
                     if os.path.isfile(eresult):
                         upload = open(eresult, 'r')
                         eresult = upload.read()
@@ -337,30 +339,32 @@ def poll():
                     execute_db_query('insert into error(service_id,error_message) values(?,?)', [id, 'HTTP(S) Request resulted in exception: ' + str(e)]) 
  
             elif type == 'ftp':
-                ftp = FTP(host=server, timeout=3)
-                ftp.login()
-                resultStringIO = StringIO()
-                ftp.retrbinary('RETR ' + request, resultStringIO.write)
-                result = resultStringIO.getvalue()
-                if os.path.isfile(eresult):
-                    upload = open(eresult, 'r')
-                    eresult = upload.read()
-                    upload.close()
-                    if result == eresult:
-                        match = True
+                try:
+                    ftp = FTP(host=server, timeout=(SRV_TIMEOUT*2))
+                    ftp.login()
+                    resultStringIO = StringIO()
+                    ftp.retrbinary('RETR ' + request, resultStringIO.write)
+                    result = resultStringIO.getvalue()
+                    if os.path.isfile(eresult):
+                        upload = open(eresult, 'r')
+                        eresult = upload.read()
+                        upload.close()
+                        if result == eresult:
+                            match = True
+                        else:
+                            diff = difflib.unified_diff(eresult, result)
+                            execute_db_query('insert into error(service_id,error_message) values(?,?)', [id, 'FTP Request result did not match expected. Diff: \n' + ''.join(diff)])
                     else:
-                        diff = difflib.unified_diff(eresult, result)
-                        execute_db_query('insert into error(service_id,error_message) values(?,?)', [id, 'FTP Request result did not match expected. Diff: \n' + ''.join(diff)])
-                else:
-                    execute_db_query('insert into error(service_id, error_message) values(?,?)', [id, 'Local filename for expected result: ' + eresult + ' does not exist.'])
-            
+                        execute_db_query('insert into error(service_id, error_message) values(?,?)', [id, 'Local filename for expected result: ' + eresult + ' does not exist.'])
+                except Exception as e:
+                    execute_db_query('insert into error(service_id, error_message) values(?,?)', [id, 'FTP request resulted in exception: ' + str(e)])
             elif type == 'mail':
                 sender = request.split(':')[0]
                 recipient = request.split(':')[1]
                 msg = request.split(':')[2]
                 smtpFailure = False
                 try:
-                    smtpServer = smtplib.SMTP(server,timeout=5)
+                    smtpServer = smtplib.SMTP(server,timeout=(SRV_TIMEOUT*2))
                     smtpServer.sendmail(sender,recipient,msg)
                     smtpServer.quit()
                 except Exception as e:
@@ -368,7 +372,7 @@ def poll():
                     smtpFailure = True
                 if not smtpFailure:
                     try: 
-                        Mailbox = poplib.POP3(server, timeout=20)
+                        Mailbox = poplib.POP3(server, timeout=(SRV_TIMEOUT*2))
                         Mailbox.user(sender.split('@')[0])
                         Mailbox.pass_('ccdc')
                         numMessages = len(Mailbox.list()[1])
