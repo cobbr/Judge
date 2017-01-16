@@ -293,6 +293,7 @@ def poll():
     The success or failure of the service and any error messages are stored in the database.
     """
     for service in execute_db_query('select * from service where service_active = 1'):
+        # Grab the service from the database
         row = execute_db_query('select * from service_type join service ON (service_type.service_type_id = service.service_type_id) where service.service_type_id = ?', [service['service_type_id']])[0]
         if row:
             id = service['service_id']
@@ -301,6 +302,7 @@ def poll():
             request = service['service_request']
             eresult = service['service_expected_result']
             match = False
+            # Perform DNS Request
             if type == 'dns':
                 result = ''
                 try:
@@ -317,7 +319,7 @@ def poll():
                     match = True
                 else:
                     execute_db_query('insert into error(service_id,error_message) values(?,?)', [id, 'DNS Request result: ' + result + ' did not match expected: ' + eresult])
-
+            # Perform HTTP(S) Request
             elif type == 'http' or type == 'https':
                 try:
                     result = requests.get(type + '://' + server + request, timeout=SRV_TIMEOUT, verify=False).text
@@ -337,7 +339,7 @@ def poll():
                         execute_db_query('insert into error(service_id, error_message) values(?,?)', [id, 'Local filename for expected result: ' + eresult + ' does not exist.'])
                 except requests.exceptions.RequestException as e:
                     execute_db_query('insert into error(service_id,error_message) values(?,?)', [id, 'HTTP(S) Request resulted in exception: ' + str(e)]) 
- 
+            # Perform FTP Request
             elif type == 'ftp':
                 try:
                     ftp = FTP(host=server, timeout=(SRV_TIMEOUT*2))
@@ -358,6 +360,7 @@ def poll():
                         execute_db_query('insert into error(service_id, error_message) values(?,?)', [id, 'Local filename for expected result: ' + eresult + ' does not exist.'])
                 except Exception as e:
                     execute_db_query('insert into error(service_id, error_message) values(?,?)', [id, 'FTP request resulted in exception: ' + str(e)])
+            # Perform SMTP request to send mail, POP3 to retrieve it back
             elif type == 'mail':
                 sender = request.split(':')[0]
                 recipient = request.split(':')[1]
