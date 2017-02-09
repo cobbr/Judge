@@ -1,16 +1,16 @@
-# CCDC-Debugger
+# Judge
 
 This project is designed to be a simple, but useful way to quickly debug services on a CCDC (Collegiate Cyber Defense Competition) network.
 
-CCDC-Debugger is a python Flask web application that can be run on Windows or Linux. Services expected to be running within a network environment are added via a web interface,
+Judge is a python Flask web application that can be run on Windows or Linux. Services expected to be running within a network environment are added via a web interface,
 and these chosen services are continually polled for functionality. A score is tallied based upon results and displayed in a scoreboard on the web interface.
 
-The main advantage of the Debugger is that it provides detailed information about what tests are failing and why, allowing a team
+The main advantage of Judge is that it provides detailed information about what tests are failing and why, allowing a team
 to quickly discover and diagnose service issues.
 
 ## Services
 
-The Debugger currently supports testing of the following services:
+Judge currently supports testing of the following services:
 * HTTP(S)
 * FTP
 * DNS
@@ -18,4 +18,4 @@ The Debugger currently supports testing of the following services:
 
 
 ----
-CCDC-Debugger was originally developed as a tool for Baylor's National Collegiate Cyber Defense Competition team.
+Judge is developed as a tool for Baylor's National Collegiate Cyber Defense Competition team.
