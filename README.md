@@ -1,4 +1,5 @@
 # Judge
+(This project is still under development and should not be used yet)
 
 This project is designed to be a simple, but useful way to quickly debug services on a CCDC (Collegiate Cyber Defense Competition) network.
 
@@ -8,7 +9,7 @@ and these chosen services are continually polled for functionality. A score is t
 The main advantage of Judge is that it provides detailed information about what tests are failing and why, allowing a team
 to quickly discover and diagnose service issues.
 
-## Services
+### Services
 
 Judge currently supports testing of the following services:
 * HTTP(S)
@@ -19,3 +20,23 @@ Judge currently supports testing of the following services:
 
 ----
 Judge is developed as a tool for Baylor's National Collegiate Cyber Defense Competition team.
+
+## Installation
+
+Linux
+
+```
+git clone https://github.com/cobbr/Judge
+cd Judge
+./setup/install.sh
+./run.py
+```
+
+Windows (in progress)
+
+```
+git clone https://github.com/cobbr/Judge
+cd Judge
+./setup/install.ps1
+./run.py
+```
