@@ -2,3 +2,5 @@ flask
 flask_wtf
 dnspython
 requests
+celery
+pyyaml
