@@ -17,6 +17,7 @@ app = Celery('tasks', broker='amqp://')
 app.config_from_object('config')
 
 s = requests.session()
+timeout = app.conf['POLL_TIMEOUT']
 
 def poll():
     """
@@ -24,32 +25,34 @@ def poll():
     The success or failure of the service and any error messages are stored in the database.
     """
     for service in execute_db_query('select * from service where service_active = 1'):
+        sleep(2)
         # Grab the service from the database
         row = execute_db_query('select * from service_type join service ON (service_type.service_type_id = service.service_type_id) where service.service_type_id = ?', [service['service_type_id']])[0]
         if row:
             type = row['service_type_name']
             # Perform DNS Request
             if type == 'dns':
-                poll_dns(service['service_id'], service['service_connection'], service['service_request'], service['service_expected_result'])
+                poll_dns.delay(timeout, service['service_id'], service['service_connection'], service['service_request'], service['service_expected_result'])
             # Perform HTTP(S) Request
             elif type == 'http' or type == 'https':
-                poll_web(service['service_id'], row['service_type_name'], service['service_connection'], service['service_request'], service['service_expected_result'])
+                poll_web.delay(timeout, service['service_id'], row['service_type_name'], service['service_connection'], service['service_request'], service['service_expected_result'])
             # Perform FTP Request
             elif type == 'ftp':
-                poll_ftp(service['service_id'], service['service_connection'], service['service_request'], service['service_expected_result'])
+                poll_ftp.delay(timeout, service['service_id'], service['service_connection'], service['service_request'], service['service_expected_result'])
             # Perform SMTP request to send mail, POP3 to retrieve it back
             elif type == 'mail':
-                poll_mail(service['service_id'], service['service_connection'], service['service_request'], service['service_expected_result'])
+                poll_mail.delay(timeout, service['service_id'], service['service_connection'], service['service_request'], service['service_expected_result'])
 
-def poll_dns(service_id, service_connection, service_request, service_expected_result):
+@app.task(soft_time_limit=6)
+def poll_dns(poll_timeout, service_id, service_connection, service_request, service_expected_result):
     try:
         try:
             result = ''
             try:
                 resolv = dns.resolver.Resolver()
                 resolv.nameservers = [service_connection]
-                resolv.timeout = app.conf['POLL_TIMEOUT']
-                resolv.lifetime = app.conf['POLL_TIMEOUT']
+                resolv.timeout = poll_timeout
+                resolv.lifetime = poll_timeout
                 answers = resolv.query(service_request, 'A')
                 for rdata in answers:
                     result = rdata.to_text()
@@ -61,18 +64,19 @@ def poll_dns(service_id, service_connection, service_request, service_expected_r
                 execute_db_query('insert into error(service_id,error_message) values(?,?)', [service_id, 'DNS Request result: ' + result + ' did not match expected: ' + service_expected_result])
                 execute_db_query('insert into poll(poll_score,service_id) values(0,?)', [service_id])
         except Exception as e:
-                execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'DNS Request resulted in exception: ' + repr(e)])
-                execute_db_query('insert into poll(poll_score,service_id) values(0,?)', [service_id])
-                pass
+            execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'DNS Request resulted in exception: ' + repr(e)])
+            execute_db_query('insert into poll(poll_score,service_id) values(0,?)', [service_id])
+            pass
     except SoftTimeLimitExceeded:
         execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'Task timed out. No error message received.'])
         execute_db_query('insert into poll(poll_score,service_id) values(0,?)', [service_id])
 
-def poll_web(service_id, service_type, service_connection, service_request, service_expected_result):
+@app.task(soft_time_limit=6)
+def poll_web(poll_timeout, service_id, service_type, service_connection, service_request, service_expected_result):
     try:
         try:
             try:
-                result = s.get(service_type + '://' + service_connection + service_request, timeout=app.conf['POLL_TIMEOUT'], verify=False).text
+                result = s.get(service_type + '://' + service_connection + service_request, timeout=poll_timeout, verify=False).text
             except requests.exceptions.Timeout as e:
                 execute_db_query('insert into error(service_id,error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in a Timeout exception: ' + repr(e)])
                 execute_db_query('insert into poll(poll_score,service_id) values(0,?)', [service_id])
@@ -121,11 +125,12 @@ def poll_web(service_id, service_type, service_connection, service_request, serv
         execute_db_query('insert into poll(poll_score,service_id) values(0,?)', [service_id])
 
 # TODO: improved exception handling for FTP
-def poll_ftp(service_id, service_connection, service_request, service_expected_result):
+@app.task(soft_time_limit=6)
+def poll_ftp(poll_timeout, service_id, service_connection, service_request, service_expected_result):
     try:
         try:
             match = False
-            ftp = FTP(host=service_connection, timeout=(app.conf['POLL_TIMEOUT']*2))
+            ftp = FTP(host=service_connection, timeout=(poll_timeout*2))
             ftp.login()
             resultStringIO = StringIO()
             ftp.retrbinary('RETR ' + service_request, resultStringIO.write)
@@ -148,13 +153,14 @@ def poll_ftp(service_id, service_connection, service_request, service_expected_r
         except Exception as e:
             execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'FTP request resulted in exception: ' + repr(e)])
             execute_db_query('insert into poll(poll_score,service_id) values(0,?)', [service_id])
-            pass
+            return
     except SoftTimeLimitExceeded:
         execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'Task timed out. No error message received.'])
         execute_db_query('insert into poll(poll_score,service_id) values(0,?)', [service_id])
 
 # TODO: Improved exception handling for mail
-def poll_mail(service_id, service_connection, service_request, service_expected_result):
+@app.task(soft_time_limit=6)
+def poll_mail(poll_timeout, service_id, service_connection, service_request, service_expected_result):
     try:
         try:
             sender = service_request.split(',')[0]
@@ -165,7 +171,7 @@ def poll_mail(service_id, service_connection, service_request, service_expected_
             sender_pass = sender.split(':')[1].split('@')[0]
             sender = sender_user + '@' + sender.split('@')[1]
             try:
-                smtpServer = smtplib.SMTP(service_connection,timeout=(app.conf['POLL_TIMEOUT']*2))
+                smtpServer = smtplib.SMTP(service_connection,timeout=(poll_timeout*2))
                 smtpServer.sendmail(sender,recipient,msg)
                 smtpServer.quit()
             except Exception as e:
@@ -174,7 +180,7 @@ def poll_mail(service_id, service_connection, service_request, service_expected_
                 return
             match = False
             try:
-                Mailbox = poplib.POP3(service_connection, timeout=(app.conf['POLL_TIMEOUT']*2))
+                Mailbox = poplib.POP3(service_connection, timeout=(poll_timeout*2))
                 Mailbox.user(sender_user)
                 Mailbox.pass_(sender_pass)
                 numMessages = len(Mailbox.list()[1])

@@ -3,19 +3,19 @@ import sqlite3, yaml
 # Database functions
 def database_create():
     """
-    Create the backend ./data/debugger.db sqlite database
+    Create the backend ./data/judge.db sqlite database
     """
     db = database_connect()
     with open('./data/schema.sql', mode='r') as f:
         db.cursor().executescript(f.read())
     db.commit()
 
-def database_populate():
+def database_populate(services_filename):
     """
     Populate the database with default data.
     """
     db = database_connect()
-    with open('services.yaml', mode='r') as yaml_config:
+    with open(services_filename, mode='r') as yaml_config:
         cfg = yaml.load(yaml_config)
     for team in cfg['teams']:
         execute_db_query('insert into team(team_name) VALUES(?)', [team['team_name']])
@@ -27,11 +27,11 @@ def database_populate():
 
 def database_connect():
     """
-    Connect with the backend ./debugger.db sqlite database and return the
+    Connect with the backend ./judge.db sqlite database and return the
     connection object.
     """
     try:
-        conn = sqlite3.connect('./data/debugger.db')
+        conn = sqlite3.connect('./data/judge.db')
         conn.row_factory = sqlite3.Row
         return conn
     except Exception as e:

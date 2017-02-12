@@ -1,50 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-
-    <title>Debugger Scoreboard</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="{{ url_for('static', filename='css/starter-template.css') }}" rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="scoreboard">CCDC-Debugger</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="scoreboard">Scoreboard</a></li>
-            <li><a href="configure">Configure</a></li>
-            <li><a href="errors">Errors</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
+{% include 'header.html' %}
     <div class="starter-template">
       <h1>Scoreboard</h1>
-      <div class="container"> 
+      <div class="container">
         <table class="table table-condensed">
           <thead>
             <tr>
@@ -77,13 +34,13 @@
           </thead>
           <tbody>
           {% for service in execute_db_query('select * from service where service.team_id = ?', [team['team_id']]) %}
-            {% set db_result = execute_db_query('select poll_score from poll where service_id = ? ORDER BY poll_time DESC LIMIT 1', [service['service_id']]) %} 
-            {% if db_result|length <= 0 %} 
-              <tr> 
-            {% elif db_result[0]['poll_score'] == 0 %} 
-              <tr class='danger'> 
-            {% else %} 
-              <tr class='success'> 
+            {% set db_result = execute_db_query('select poll_score from poll where service_id = ? ORDER BY poll_time DESC LIMIT 1', [service['service_id']]) %}
+            {% if db_result|length <= 0 %}
+              <tr>
+            {% elif db_result[0]['poll_score'] == 0 %}
+              <tr class='danger'>
+            {% else %}
+              <tr class='success'>
             {% endif %}
               <td>{{ service['service_name'] }}</td>
               <td>{{ execute_db_query('select sum(poll_score) as s FROM poll WHERE poll.service_id = ?', [service['service_id']])[0]['s'] }}</td>
@@ -100,12 +57,4 @@
         {% endfor %}
       </div><!-- /.container -->
     <div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/jquery.min.js') }}"><\/script>')</script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script> 
-  </body>
-</html>
+{% include 'footer.html' %}

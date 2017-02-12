@@ -28,7 +28,7 @@ def utility_processor():
     """
     Exports functions that can be used in Jinja templates.
     """
-    return dict(execute_db_query=db.execute_db_query)
+    return dict(execute_db_query=db.execute_db_query, allow_config=app.config['ALLOW_CONFIG'])
 
 @app.cli.command('setup')
 def setup():
@@ -47,7 +47,7 @@ def populate():
     Flask command line function that populates the database with default data
     """
     print 'Populating database...'
-    db.database_populate()
+    db.database_populate(app.config['SERVICES_FILE'])
     print 'Done.'
 
 # WTF-Form classes
@@ -77,24 +77,26 @@ class AddMailServiceForm(FlaskForm):
     to_email = StringField('To', [validators.Length(min=1, max=50)])
     service_expected_result = StringField('Message', [validators.Length(min=1,max=200)])
 
-
 # Flask web functionality
 @app.route('/configure', methods=['GET'])
 def configure():
     """
     The configure page is used to add/remove teams/services.
     """
-    forms = {}
-    forms['addTeamForm'] = AddTeamForm(request.form, csrf_enabled=False)
+    if app.config['ALLOW_CONFIG']:
+        forms = {}
+        forms['addTeamForm'] = AddTeamForm(request.form, csrf_enabled=False)
 
-    choices = [(team['team_id'], team['team_name']) for team in db.execute_db_query('select team_id, team_name from team')]
-    forms['addDNSServiceForm'] = AddDNSServiceForm(request.form, csrf_enabled=False)
-    forms['addWebServiceForm'] = AddWebServiceForm(request.form, csrf_enabled=False)
-    forms['addMailServiceForm'] = AddMailServiceForm(request.form, csrf_enabled=False)
-    forms['addDNSServiceForm'].team_name.choices = choices
-    forms['addWebServiceForm'].team_name.choices = choices
-    forms['addMailServiceForm'].team_name.choices = choices
-    return render_template('configure.html', forms=forms)
+        choices = [(team['team_id'], team['team_name']) for team in db.execute_db_query('select team_id, team_name from team')]
+        forms['addDNSServiceForm'] = AddDNSServiceForm(request.form, csrf_enabled=False)
+        forms['addWebServiceForm'] = AddWebServiceForm(request.form, csrf_enabled=False)
+        forms['addMailServiceForm'] = AddMailServiceForm(request.form, csrf_enabled=False)
+        forms['addWebServiceForm'].team_name.choices = choices
+        forms['addDNSServiceForm'].team_name.choices = choices
+        forms['addMailServiceForm'].team_name.choices = choices
+        return render_template('configure.html', forms=forms, active_page='configure')
+    else:
+        return redirect(url_for('scoreboard'))
 
 @app.route('/team/add', methods=['POST'])
 def add_team():
@@ -108,7 +110,7 @@ def add_team():
         else:
             flash('Form not validated')
     else:
-        flash("Configuration is not allowed on this instance of Judge");
+        return redirect(url_for('scoreboard'))
     return redirect(url_for('configure'))
 
 @app.route('/team/remove', methods=['POST'])
@@ -120,7 +122,7 @@ def remove_team():
     if app.config['ALLOW_CONFIG']:
         db.execute_db_query('DELETE from team WHERE team_id = ?', [team_id])
     else:
-        flash("Configuration is not allowed on this instance of Judge");
+        return redirect(url_for('scoreboard'))
     return redirect(url_for('configure'))
 
 @app.route('/service/dns/add', methods=['POST'])
@@ -139,7 +141,7 @@ def add_dns_service():
         else:
             flash('Form not validated')
     else:
-        flash("Configuration is not allowed on this instance of Judge");
+        return redirect(url_for('scoreboard'))
     return redirect(url_for('configure'))
 
 @app.route('/service/web/add', methods=['POST'])
@@ -169,7 +171,7 @@ def add_web_service():
         else:
             flash('Form not validated')
     else:
-        flash("Configuration is not allowed on this instance of Judge");
+        return redirect(url_for('scoreboard'))
     return redirect(url_for('configure'))
 
 @app.route('/service/mail/add', methods=['POST'])
@@ -192,7 +194,7 @@ def add_mail_service():
         else:
             flash('Form not validated')
     else:
-        flash("Configuration is not allowed on this instance of Judge");
+        return redirect(url_for('scoreboard'))
     return redirect(url_for('configure'))
 
 @app.route('/service/remove', methods=['POST'])
@@ -204,7 +206,7 @@ def remove_service():
         service_id = request.form['service_id']
         db.execute_db_query('DELETE from service where service_id = ?', [service_id])
     else:
-        flash("Configuration is not allowed on this instance of Judge");
+        return redirect(url_for('scoreboard'))
     return redirect(url_for('configure'))
 
 @app.route('/errors')
@@ -212,14 +214,14 @@ def errors():
     """
     The error page displays all current service errors
     """
-    return render_template('errors.html')
+    return render_template('errors.html', active_page='errors')
 
 @app.route('/scoreboard')
 def scoreboard():
     """
     The scoreboard page displays a scoreboard of ranked teams, and detailed service scores.
     """
-    return render_template('scoreboard.html')
+    return render_template('scoreboard.html', active_page='scoreboard')
 
 @app.route('/')
 def home():
