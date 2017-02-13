@@ -21,7 +21,8 @@ import db
 # Application settings
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object('config')
-app.config.from_pyfile('config.py')
+if os.path.isfile('instance/config.py'):
+    app.config.from_pyfile('config.py')
 
 @app.context_processor
 def utility_processor():
