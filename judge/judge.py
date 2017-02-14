@@ -15,6 +15,10 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, HiddenField, validators
 from flask_wtf.file import FileField, FileRequired
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import CombinedMultiDict
+
+from urlparse import urlparse
+
 import tasks
 import db
 
@@ -23,6 +27,7 @@ app = Flask(__name__, instance_relative_config=True)
 app.config.from_object('config')
 if os.path.isfile('instance/config.py'):
     app.config.from_pyfile('config.py')
+app.config['UPLOAD_FOLDER'] = 'data/uploads'
 
 @app.context_processor
 def utility_processor():
@@ -65,10 +70,10 @@ class AddDNSServiceForm(FlaskForm):
     service_expected_result = StringField('Expected IP Result', [validators.IPAddress()])
 
 class AddWebServiceForm(FlaskForm):
-    team_name = SelectField('Team')
+    team_name = SelectField('Team', coerce=int)
     service_name = StringField('Service Name', [validators.Length(min=1, max=50)])
     service_url = StringField('HTTP(S)/FTP URL', [validators.URL()])
-    service_file = FileField('Expected File', [FileRequired()])
+    # service_file = FileField('Expected File')
 
 class AddMailServiceForm(FlaskForm):
     team_name = SelectField('Team', coerce=int)
@@ -78,7 +83,7 @@ class AddMailServiceForm(FlaskForm):
     to_email = StringField('To', [validators.Length(min=1, max=50)])
     service_expected_result = StringField('Message', [validators.Length(min=1,max=200)])
 
-# Flask web functionality
+# Flask web routes
 @app.route('/configure', methods=['GET'])
 def configure():
     """
@@ -90,7 +95,7 @@ def configure():
 
         choices = [(team['team_id'], team['team_name']) for team in db.execute_db_query('select team_id, team_name from team')]
         forms['addDNSServiceForm'] = AddDNSServiceForm(request.form, csrf_enabled=False)
-        forms['addWebServiceForm'] = AddWebServiceForm(request.form, csrf_enabled=False)
+        forms['addWebServiceForm'] = AddWebServiceForm(CombinedMultiDict((request.files, request.form)))
         forms['addMailServiceForm'] = AddMailServiceForm(request.form, csrf_enabled=False)
         forms['addWebServiceForm'].team_name.choices = choices
         forms['addDNSServiceForm'].team_name.choices = choices
@@ -121,6 +126,7 @@ def remove_team():
     """
     team_id = request.form['team_id']
     if app.config['ALLOW_CONFIG']:
+        db.execute_db_query('DELETE from service where team_id = ?', [team_id])
         db.execute_db_query('DELETE from team WHERE team_id = ?', [team_id])
     else:
         return redirect(url_for('scoreboard'))
@@ -145,32 +151,33 @@ def add_dns_service():
         return redirect(url_for('scoreboard'))
     return redirect(url_for('configure'))
 
+# WTF-Form FileField not working, doing all validation manually for this route
 @app.route('/service/web/add', methods=['POST'])
 def add_web_service():
     """
     The AddWebServiceForm posts to this page. Add a Web service to the database, and redirect back to the configure page.
     """
-    form = AddWebServiceForm(request.form, csrf_enabled=False)
+    print 'adding web service'
     if app.config['ALLOW_CONFIG']:
-        choices = [(team['team_id'], team['team_name']) for team in db.execute_db_query('select team_id, team_name from team')]
-        form.team_name.choices = choices
-        if form.validate():
-            team_id = form.team_name.data
-            service_name = form.service_name.data
-
-            service_url = urlparse(form.service_url.data)
-            service_type_name = service_url.scheme
-            service_connection = service_url.netloc
-
-            filename = secure_filename(form.service_file.data.filename)
-            form.service_file.data.save('data/uploads/' + filename)
-            service_request = service_url.path
-            service_expected_result = filename
-
-            service_type_id = db.execute_db_query('select service_type_id from service_type where service_type_name = ?', [service_type_name])[0]['service_type_id']
-            db.execute_db_query('INSERT INTO service(service_type_id, team_id, service_name, service_connection, service_request, service_expected_result) VALUES(?, ?, ?, ?, ?, ?)', [service_type_id, team_id, service_name, service_connection, service_request, service_expected_result])
-        else:
-            flash('Form not validated')
+        if 'file' not in request.files:
+            return redirect('configure')
+        file = request.files['file']
+        if file.filename == '':
+            return redirect('configure')
+        team_id = request.form['team_name']
+        team_choices = [str(team['team_id']) for team in db.execute_db_query('select team_id from team')]
+        if not team_id in team_choices:
+            return redirect('configure')
+        service_name = request.form['service_name']
+        service_url = urlparse(request.form['service_url'])
+        service_type_name = service_url.scheme
+        service_connection = service_url.netloc
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        service_request = service_url.path
+        service_expected_result = filename
+        service_type_id = db.execute_db_query('select service_type_id from service_type where service_type_name = ?', [service_type_name])[0]['service_type_id']
+        db.execute_db_query('INSERT INTO service(service_type_id, team_id, service_name, service_connection, service_request, service_expected_result) VALUES(?, ?, ?, ?, ?, ?)', [service_type_id, team_id, service_name, service_connection, service_request, service_expected_result])
     else:
         return redirect(url_for('scoreboard'))
     return redirect(url_for('configure'))
@@ -188,7 +195,7 @@ def add_mail_service():
             team_id = form.team_name.data
             service_name = form.service_name.data
             service_connection = form.service_connection.data
-            service_request = form.from_email.data + ':' + form.to_email.data + ':' + form.service_expected_result.data
+            service_request = form.from_email.data + ',' + form.to_email.data + ',' + form.service_expected_result.data
             service_expected_result = form.service_expected_result.data
             service_type_id = db.execute_db_query("select service_type_id from service_type where service_type_name = 'mail'")[0]['service_type_id']
             db.execute_db_query('INSERT INTO service(service_type_id, team_id, service_name, service_connection, service_request, service_expected_result) VALUES(?, ?, ?, ?, ?, ?)', [service_type_id, team_id, service_name, service_connection, service_request, service_expected_result])

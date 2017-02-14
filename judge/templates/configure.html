@@ -1,5 +1,5 @@
 {% include 'header.html' %}
-{% from 'macros.html' import render_form %}
+{% from 'macros.html' import render_form, render_field %}
 <div class="starter-template">
   <h1>Configure the Debugger</h1>
   <div class="container">
@@ -17,9 +17,15 @@
         {% for team in execute_db_query('select * from team') %}
           <tr>
             <td>{{ team['team_name'] }}</td>
-            <td>{{ execute_db_query('select sum(poll_score) as s from poll join service ON (poll.service_id = service.service_id) join team ON (service.team_id = team.team_id) where team.team_id = ?', [team['team_id']])[0]['s']  }}</td>
-            <td>{{ execute_db_query('select count(poll_score) as c from poll join service ON (poll.service_id = service.service_id) join team ON (service.team_id = team.team_id) where team.team_id = ?', [team['team_id']])[0]['c']  }}</td>
-            <td><form method='POST' action='/team/remove' role='form'><input type="hidden" name="team_id" value={{ team['team_id'] }}> <input class='btn btn-primary' type='submit' value='Delete'></form></td>
+            {% set db_result = execute_db_query('select count(poll_score) as c, sum(poll_score) as s from poll join service ON (poll.service_id = service.service_id) join team ON (service.team_id = team.team_id) where team.team_id = ?', [team['team_id']]) %}
+            {% if db_result|length <= 0 %}
+              <td>0</td>
+              <td>0</td>
+            {% else %}
+              <td>{{ db_result[0]['s'] }}</td>
+              <td>{{ db_result[0]['c'] }}</td>
+            {% endif %}
+            <td><form method='POST' action='/team/remove' role='form'><input type="hidden" name="team_id" value={{ team['team_id'] }}> <input class='btn btn-danger' type='submit' value='Delete'></form></td>
           </tr>
         {% endfor %}
         </tbody>
@@ -53,9 +59,15 @@
           {% endif %}
             <td>{{ execute_db_query('select team_name from team where team_id = ?', [service['team_id']])[0]['team_name'] }}</td>
             <td>{{ service['service_name'] }}</td>
-            <td>{{ execute_db_query('select sum(poll_score) as s from poll join service on (poll.service_id = service.service_id) where service.service_id = ?', [service['service_id']])[0]['s'] }}</td>
-            <td>{{ execute_db_query('select count(poll_score) as c from poll join service on (poll.service_id = service.service_id) where service.service_id = ?', [service['service_id']])[0]['c'] }}</td>
-            <td><form method='POST' action='/service/remove' role='form'><input type="hidden" name='service_id' value={{ service['service_id'] }}> <input class='btn btn-primary' type='submit' value='Delete'></form></td>
+            {% set db_result = execute_db_query('select count(poll_score) as c, sum(poll_score) as s from poll join service on (poll.service_id = service.service_id) where service.service_id = ?', [service['service_id']]) %}
+            {% if db_result|length <= 0 %}
+              <td>0</td>
+              <td>0</td>
+            {% else %}
+              <td>{{ db_result[0]['s'] }}</td>
+              <td>{{ db_result[0]['c'] }}</td>
+            {% endif %}
+            <td><form method='POST' action='/service/remove' role='form'><input type="hidden" name='service_id' value={{ service['service_id'] }}> <input class='btn btn-danger' type='submit' value='Delete'></form></td>
           </tr>
         {% endfor %}
         </tbody>
@@ -67,11 +79,22 @@
     </div><br><br>
     <div class='container rounded form-block'>
       <h3>New Web Service</h3>
-      {{ render_form(forms['addWebServiceForm'], action_url='/service/web/add', action_text='Add Web Service') }}
+      <form action="service/web/add" method="post" enctype="multipart/form-data">
+        {% for field in forms['addWebServiceForm'] %}
+            {{ render_field(field) }}
+        {% endfor %}
+        <div class="form-group">
+          <label for="file" class="custom-file control-label">
+            <input type="file" name="file" id="file" class="custom-file-input">
+            <span class="custom-file-control"></span>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Web Service</button>
+      </form>
     </div><br><br>
     <div class='container rounded form-block'>
       <h3>New Mail Service</h3>
-      {{ render_form(forms['addMailServiceForm'], action_url='/service/remove', action_text='Add Mail Service') }}
+      {{ render_form(forms['addMailServiceForm'], action_url='/service/mail/add', action_text='Add Mail Service') }}
     </div>
   </div>
 </div><!-- /.container -->

@@ -10,17 +10,17 @@
 #}
 {% macro render_field(field, label_visible=true) -%}
 
-    <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
-        {% if (field.type != 'HiddenField' and field.type !='CSRFTokenField') and label_visible %}
-            <label for="{{ field.id }}" class="control-label">{{ field.label }}</label>
-        {% endif %}
-        {{ field(class_='form-control', **kwargs) }}
-        {% if field.errors %}
-            {% for e in field.errors %}
-                <p class="help-block">{{ e }}</p>
-            {% endfor %}
-        {% endif %}
-    </div>
+  <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+      {% if (field.type != 'HiddenField' and field.type !='CSRFTokenField') and label_visible %}
+          <label for="{{ field.id }}" class="control-label">{{ field.label }}</label>
+      {% endif %}
+      {{ field(class_='form-control', **kwargs) }}
+      {% if field.errors %}
+          {% for e in field.errors %}
+              <p class="help-block">{{ e }}</p>
+          {% endfor %}
+      {% endif %}
+  </div>
 {%- endmacro %}
 
 {# Renders file field
@@ -33,10 +33,12 @@
         {{ macros.render_file_field(form.field) }}
 #}
 {% macro render_file_field(field) -%}
-    <label class="custom-file">
-        <input type="file" class="custom-file-input" id="{{ field.id }}">
-        <span class="custom-file-control"></span>
-    </label>
+  <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+      <label for="{{ field.id }}" class="custom-file">
+          <input name="{{ field.id }}" id="{{ field.id }}" type="file" class="custom-file-input" >
+          <span class="custom-file-control"></span>
+      </label>
+  </div>
 {%- endmacro %}
 
 
