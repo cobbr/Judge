@@ -67,7 +67,7 @@ services:
     service_name            : internal http - web.ccdc.local
     service_connection      : 172.25.21.3
     service_request         : /
-  # The name of the file on the server that we will compare the result of the request to, they must match
+  # The name of the file on the server that we will compare the result of the request to, the result must match
     service_expected_result : data/uploads/default/iis-85.html
 ```
 
