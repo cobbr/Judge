@@ -11,6 +11,11 @@ CCDC (or similar competitions) are usually scored upon keeping services function
 
 ![Configuration](https://raw.githubusercontent.com/wiki/cobbr/Judge/configure1.png)
 
+![Configuration](https://raw.githubusercontent.com/wiki/cobbr/Judge/configure2.png)
+
+![Configuration](https://raw.githubusercontent.com/wiki/cobbr/Judge/configure3.png)
+
+
 In addition to functioning as a scorer, Judge also provides detailed error messages on why particular services are failing, allowing a team to quickly discover and debug a failing service (shown below).
 
 ![Errors](https://raw.githubusercontent.com/wiki/cobbr/Judge/errors1.png)
