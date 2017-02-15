@@ -2,11 +2,17 @@ teams:
   - team_name : Baylor
 
 services:
+  # Available service_types are: dns, http, https, ftp, mail
   - service_type_name       : dns
+  # The team that should be scored based on the functionality of this service
     team_name               : Baylor
+  # A name for this service, will be displayed on the scoreboard
     service_name            : internal dns - addns.ccdc.local
+  # The server IP that will be queried for this service
     service_connection      : 172.25.21.27
+  # The domain name that this service is querying
     service_request         : addns.ccdc.local
+  # The expected result the server should return, service will fail if result does not match expected
     service_expected_result : 172.25.21.27
   - service_type_name       : dns
     team_name               : Baylor
@@ -61,6 +67,7 @@ services:
     service_name            : internal http - web.ccdc.local
     service_connection      : 172.25.21.3
     service_request         : /
+  # The name of the file on the server that we will compare the result of the request to, they must match
     service_expected_result : data/uploads/default/iis-85.html
   - service_type_name       : https
     team_name               : Baylor
