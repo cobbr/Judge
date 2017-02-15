@@ -60,28 +60,28 @@ def populate():
 # Used to create functional forms for adding/removing services/teams within the Web UI
 
 class AddTeamForm(FlaskForm):
-    team_name = StringField('Team Name', [validators.Length(min=1, max=50)])
+    team_name = StringField('Team Name', [validators.Length(min=1, max=50)], render_kw={"placeholder": "Team Name"})
 
 class AddDNSServiceForm(FlaskForm):
     team_name = SelectField('Team', coerce=int)
-    service_name = StringField('Service Name', [validators.Length(min=1, max=50)])
-    service_connection = StringField('DNS Server IP', [validators.IPAddress()])
-    service_request = StringField('DNS Lookup Hostname', [validators.Length(min=1, max=50)])
-    service_expected_result = StringField('Expected IP Result', [validators.IPAddress()])
+    service_name = StringField('Service Name', [validators.Length(min=1, max=50)], render_kw={"placeholder": "Service Name"})
+    service_connection = StringField('DNS Server IP', [validators.IPAddress()], render_kw={"placeholder": "IP Address"})
+    service_request = StringField('DNS Lookup Hostname', [validators.Length(min=1, max=50)], render_kw={"placeholder": "Domain Name"})
+    service_expected_result = StringField('Expected IP Result', [validators.IPAddress()], render_kw={"placeholder": "IP Address"})
 
 class AddWebServiceForm(FlaskForm):
     team_name = SelectField('Team', coerce=int)
-    service_name = StringField('Service Name', [validators.Length(min=1, max=50)])
-    service_url = StringField('HTTP(S)/FTP URL', [validators.URL()])
+    service_name = StringField('Service Name', [validators.Length(min=1, max=50)], render_kw={"placeholder": "Service Name"})
+    service_url = StringField('HTTP(S)/FTP URL', [validators.URL()], render_kw={"placeholder": "http://www.example.com"})
     # service_file = FileField('Expected File')
 
 class AddMailServiceForm(FlaskForm):
     team_name = SelectField('Team', coerce=int)
-    service_name = StringField('Service Name', [validators.Length(min=1, max=50)])
-    service_connection = StringField('Mail Server IP', [validators.IPAddress()])
-    from_email = StringField('From', [validators.Length(min=1, max=50)])
-    to_email = StringField('To', [validators.Length(min=1, max=50)])
-    service_expected_result = StringField('Message', [validators.Length(min=1,max=200)])
+    service_name = StringField('Service Name', [validators.Length(min=1, max=50)], render_kw={"placeholder": "Service Name"})
+    service_connection = StringField('Mail Server IP', [validators.IPAddress()], render_kw={"placeholder": "IP Address"})
+    from_email = StringField('From', [validators.Length(min=1, max=50)], render_kw={"placeholder": "Username:Password@example.com"})
+    to_email = StringField('To', [validators.Length(min=1, max=50)], render_kw={"placeholder": "Username:Password@example.com"})
+    service_expected_result = StringField('Message', [validators.Length(min=1,max=200)], render_kw={"placeholder": "Message Content"})
 
 # Flask web routes
 @app.route('/configure', methods=['GET'])
