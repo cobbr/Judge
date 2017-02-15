@@ -84,3 +84,23 @@ Windows
 ```
 PS> ./judge.ps1
 ```
+
+Scoring history is saved, even after Judge has stopped running, and will be resume upon re-launch. You can reset scoring at any time by running:
+
+(Note: This will also remove any configurations added through the web interface, only the `services.yaml` configurations will remain.)
+
+Linux
+```
+$ ./setup/reset.sh
+```
+
+Windows
+```
+PS> ./setup/reset.ps1
+```
+
+## Issues/Contributions
+
+Contributions are welcome!
+
+Please report all bugs through Github issues. If you have ideas for additional features or want to implement your own, also add these through Github issues.
