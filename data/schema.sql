@@ -1,3 +1,8 @@
+-- Judge v0.1 - schema.sql
+-- Author: Ryan Cobb (@cobbr_io)
+-- Project Home: https://github.com/cobbr/Judge
+-- License: GNU GPLv3
+
 CREATE TABLE team (
     team_id INTEGER PRIMARY KEY ASC,
     team_name TEXT NOT NULL

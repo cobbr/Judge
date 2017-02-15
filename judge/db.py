@@ -1,3 +1,8 @@
+# Judge v0.1 - db.py
+# Author: Ryan Cobb (@cobbr_io)
+# Project Home: https://github.com/cobbr/Judge
+# License: GNU GPLv3
+
 import sqlite3, yaml
 
 # Database functions

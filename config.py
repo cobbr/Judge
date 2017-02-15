@@ -1,3 +1,8 @@
+# Judge v0.1 - config.py
+# Author: Ryan Cobb (@cobbr_io)
+# Project Home: https://github.com/cobbr/Judge
+# License: GNU GPLv3
+
 DEBUG = False
 ALLOW_CONFIG = True
 POLL_TIMEOUT = 5

@@ -1,8 +1,7 @@
-# Judge
-#
-# Debugging/Scoring utility for a CCDC team
-#
-# Author: Ryan Cobb
+# Judge v0.1 - judge.py
+# Author: Ryan Cobb (@cobbr_io)
+# Project Home: https://github.com/cobbr/Judge
+# License: GNU GPLv3
 
 # import OS libraries
 import os.path

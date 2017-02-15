@@ -1,3 +1,8 @@
+# Judge v0.1 - install.ps1
+# Author: Ryan Cobb (@cobbr_io)
+# Project Home: https://github.com/cobbr/Judge
+# License: GNU GPLv3
+
 $scriptPath = Split-Path (Get-Variable MyInvocation).Value.MyCommand.Path
 python -m pip install -r $scriptPath\requirements.txt
 # This is stolen from: http://stackoverflow.com/questions/31712686/how-to-check-if-a-program-is-installed-and-install-it-if-it-is-not
