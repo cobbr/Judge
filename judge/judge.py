@@ -157,7 +157,6 @@ def add_web_service():
     """
     The AddWebServiceForm posts to this page. Add a Web service to the database, and redirect back to the configure page.
     """
-    print 'adding web service'
     if app.config['ALLOW_CONFIG']:
         if 'file' not in request.files:
             return redirect('configure')
