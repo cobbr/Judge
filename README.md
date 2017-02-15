@@ -11,8 +11,7 @@ Judge is implemented as a python Flask web application, compatible with Linux an
 ### Services
 
 Judge currently supports testing of the following services:
-* HTTP
-* HTTPS
+* HTTP(S)
 * FTP
 * DNS
 * SMTP
