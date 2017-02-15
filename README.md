@@ -4,6 +4,9 @@ Judge is a scoreboard and debugging tool designed for use on a CCDC (Collegiate 
 
 ![Scoreboard](https://raw.githubusercontent.com/wiki/cobbr/Judge/scoreboard1.png)
 
+![Scoreboard](https://raw.githubusercontent.com/wiki/cobbr/Judge/scoreboard2.png)
+
+
 CCDC (or similar competitions) are usually scored upon keeping services functional within a business network. Services expected to be running on a network can be communicated to Judge through a simple YAML configuration file or configured through the web interface (shown below).
 
 ![Configuration](https://raw.githubusercontent.com/wiki/cobbr/Judge/configure1.png)
@@ -12,7 +15,7 @@ In addition to functioning as a scorer, Judge also provides detailed error messa
 
 ![Errors](https://raw.githubusercontent.com/wiki/cobbr/Judge/errors1.png)
 
-Judge is implemented as a python Flask web application, compatible with Linux and Windows. If you plan on running Judge as an official scorer for a competition you should read the production notes available [here](https://github.com/cobbr/Judge/wiki).
+Judge is implemented as a python Flask web application, compatible with Linux and Windows. If you plan on running Judge as an official scorer for a competition you should read the production notes available [here](https://github.com/cobbr/Judge/wiki/Production-Notes).
 
 ### Services
 
