@@ -1,6 +1,6 @@
 # Judge
 
-Judge is a scoreboard and debugging tool designed for use on a CCDC (Collegiate Cyber Defense Competition) network. It can be used during practice sessions to quickly debug failing services or in competition to keep score for teams.
+Judge is a scoreboard and debugging tool designed for use on a CCDC (Collegiate Cyber Defense Competition) network. It can be used during practice sessions or during a competition to quickly debug failing services and to keep score for teams.
 
 ![Scoreboard](https://raw.githubusercontent.com/wiki/cobbr/Judge/scoreboard1.png)
 
@@ -44,7 +44,7 @@ $ cd Judge
 $ ./setup/install.sh
 ```
 
-The commands for installation on Windows is just as simple, however dependencies can be problematic. Judge is dependent on python. It assumes that it is already installed, and that python.exe is added to your PATH. Be sure python is setup correctly before attempting to install Judge. Judge is also dependent on Erlang and RabbitMQ (Judge uses the python celery package for forking background processes which requires these programs), and it **will** attempt to download and install them upon execution of Judge's install script:
+The commands for installation on Windows are just as simple, however dependencies can be problematic. Judge is dependent on python. It assumes that it is already installed, and that python.exe is added to your PATH. Be sure python is setup correctly before attempting to install Judge. Judge is also dependent on Erlang and RabbitMQ (Judge uses the python `celery` package for forking background processes which requires these programs), and it **will** attempt to download and install them upon execution of Judge's install script (this can take a few minutes):
 
 ```
 PS> git clone https://github.com/cobbr/Judge
@@ -99,9 +99,8 @@ Windows
 PS> ./judge.ps1
 ```
 
-Scoring history is saved, even after Judge has stopped running, and will be resume upon re-launch. You can reset scoring at any time by running:
-
-(Note: This will also remove any configurations added through the web interface, only the `services.yaml` configurations will remain.)
+Scoring history is saved, even after Judge has stopped running, and will be resumed upon re-launch. You can reset scoring at any time by running:
+(Note: This will also remove any configurations added through the web interface. Only the `services.yaml` configurations will remain.)
 
 Linux
 ```
@@ -117,4 +116,4 @@ PS> ./setup/reset.ps1
 
 Contributions are welcome!
 
-Please report all bugs through Github issues. If you have ideas for additional features or want to implement your own, also add these through Github issues.
+Please report all bugs through Github issues. If you have ideas for additional features or want to implement your own, these can also be discussed through Github issues.
