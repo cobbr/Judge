@@ -20,7 +20,7 @@ In addition to functioning as a scorer, Judge also provides detailed error messa
 
 ![Errors](https://raw.githubusercontent.com/wiki/cobbr/Judge/errors1.png)
 
-Judge is implemented as a python Flask web application, compatible with Linux and Windows. If you plan on running Judge as an official scorer for a competition you should read the production notes available [here](https://github.com/cobbr/Judge/wiki/Production-Notes).
+Judge is implemented as a python Flask web application, compatible with Linux and Windows. If you plan on running Judge as an official scorer for a competition you should read the production notes available [here](https://github.com/cobbr/Judge/wiki/3.-Production-Notes).
 
 ### Services
 
