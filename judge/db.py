@@ -26,9 +26,9 @@ def database_populate(services_filename):
         execute_db_query('insert into team(team_name) VALUES(?)', [team['team_name']])
     for service in cfg['services']:
 
-        execute_db_query('insert into service(service_type_id, team_id, service_name, service_connection, service_request, service_expected_result) '
-        +'VALUES((select service_type_id from service_type where service_type_name = ?), (select team_id from team where team_name = ?),?,?,?,?)'
-        , [service['service_type_name'], service['team_name'], service['service_name'], service['service_connection'], service['service_request'], service['service_expected_result']])
+        execute_db_query('insert into service(service_type_id, service_name, service_connection, service_request,service_type_name) '
+        +'VALUES((select service_type_id from service_type where service_type_name = ?),?,?,?,?)'
+        , [service['service_type_name'], service['service_name'], service['service_connection'], service['service_request'],service['service_type_name']])
 
 def database_connect():
     """

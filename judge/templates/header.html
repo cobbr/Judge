@@ -37,25 +37,25 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="scoreboard">Judge</a>
+          <a class="navbar-brand" href="/scoreboard">Judge</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             {% if active_page == 'scoreboard' %}
-              <li class="active"><a href="scoreboard">Scoreboard</a></li>
+              <li class="active"><a href="/scoreboard">Scoreboard</a></li>
             {% else %}
-              <li><a href="scoreboard">Scoreboard</a></li>
+              <li><a href="/scoreboard">Scoreboard</a></li>
             {% endif %}
             {% if active_page == 'errors' %}
-              <li class="active"><a href="errors">Errors</a></li>
+              <li class="active"><a href="/errors">Errors</a></li>
             {% else %}
-              <li><a href="errors">Errors</a></li>
+              <li><a href="/errors">Errors</a></li>
             {% endif %}
             {% if allow_config %}
               {% if active_page == 'configure' %}
-                <li class="active"><a href="configure">Configure</a></li>
+                <li class="active"><a href="/configure">Configure</a></li>
               {% else %}
-                <li><a href="configure">Configure</a></li>
+                <li><a href="/configure">Configure</a></li>
               {% endif %}
             {% endif %}
           </ul>

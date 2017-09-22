@@ -9,7 +9,7 @@ from threading import Thread
 from time import sleep
 
 # import flask libraries
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash,session
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, HiddenField, validators
 from flask_wtf.file import FileField, FileRequired
@@ -85,6 +85,9 @@ class AddMailServiceForm(FlaskForm):
 # Flask web routes
 @app.route('/configure', methods=['GET'])
 def configure():
+    if not session.get("logged_in"):
+        return render_template("login.html")
+    
     """
     The configure page is used to add/remove teams/services.
     """
@@ -125,7 +128,6 @@ def remove_team():
     """
     team_id = request.form['team_id']
     if app.config['ALLOW_CONFIG']:
-        db.execute_db_query('DELETE from service where team_id = ?', [team_id])
         db.execute_db_query('DELETE from team WHERE team_id = ?', [team_id])
     else:
         return redirect(url_for('scoreboard'))
@@ -248,6 +250,20 @@ def poll_forever():
             print 'poll exception: ' + repr(e)
             pass
 
+@app.route("/login", methods=['POST'])
+def login():
+    passwd1=request.form['password']
+    username1=request.form['username']
+
+    if username1=="baylor" and passwd1=="super":
+        session['logged_in']=True
+        return redirect(url_for('configure'));
+
+    return render_template('login.html')
+@app.route("/teamscore/<name>")
+def teampage(name):
+    print name
+    return render_template('team.html',teamname=name)
 def go():
     pollThread = Thread(target=poll_forever)
     pollThread.setDaemon(True)

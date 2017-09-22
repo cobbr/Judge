@@ -4,9 +4,9 @@
    Project Home: https://github.com/cobbr/Judge
    License: GNU GPLv3
 #}
+{% set foo = teamname %}
 
 {% include 'header.html' %}
-<meta http-equiv="refresh" content="10"> 
     <div class="starter-template">
       <h1>Scoreboard</h1>
       <div class="container">
@@ -30,8 +30,7 @@
         </table>
         <br><br><br>
         <h3 class="starter-template">Team's Detailed Service Scores</h3>
-        {% for team in execute_db_query('select * from team') %}
-        <a href={{ url_for('teampage',name=team['team_name']) }}>Team detailed page</a>
+        {% for team in execute_db_query('select * from team where team.team_name = ?',[foo]) %}
         <table class="table table-condensed">
           <h3>{{ team['team_name'] }}</h3>
           <thead>
@@ -42,8 +41,7 @@
             </tr>
           </thead>
           <tbody>
-
-          {% for service in execute_db_query('select * from service group by service_type_name') %}
+          {% for service in execute_db_query('select * from service') %}
             {% set db_result = execute_db_query('select poll_score from poll where service_id = ? ORDER BY poll_time DESC LIMIT 1', [service['service_id']]) %}
             {% if db_result|length <= 0 %}
               <tr>
@@ -52,15 +50,15 @@
             {% else %}
               <tr class='success'>
             {% endif %}
-              <td>{{ service['service_type_name'] }}</td>
-              <td>{{ execute_db_query('select coalesce(sum(poll_score),0) as s FROM poll WHERE poll.service_type_name = ? and poll.team_id = ?', [service['service_type_name'],team['team_id']])[0]['s'] }}</td>
-              <td>{{ execute_db_query('select coalesce(sum(poll_score),0) as c FROM poll WHERE poll.service_type_name = ?', [service['service_type_name']])[0]['c'] }}</td>
+              <td>{{ service['service_name'] }}</td>
+              <td>{{ execute_db_query('select coalesce(sum(poll_score),0) as s FROM poll WHERE poll.service_id = ? and poll.team_id = ?', [service['service_id'],team['team_id']])[0]['s'] }}</td>
+              <td>{{ execute_db_query('select coalesce(sum(poll_score),0) as c FROM poll WHERE poll.service_id = ?', [service['service_id']])[0]['c'] }}</td>
             </tr>
           {% endfor %}
             <tr>
               <td><b>Total</b></td>
-              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as s FROM poll join service on(poll.service_type_name = service.service_type_name) WHERE poll.team_id = ?',[team['team_id']])[0]['s'] }}</b></td>
-              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as c FROM poll join service on(poll.service_type_name = service.service_type_name)')[0]['c'] }}</b></td>
+              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as s FROM poll join service on(poll.service_id = service.service_id) WHERE poll.team_id = ?',[team['team_id']])[0]['s'] }}</b></td>
+              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as c FROM poll join service on(poll.service_id = service.service_id)')[0]['c'] }}</b></td>
             </tr>
           </tbody>
         </table>

@@ -1,0 +1,36 @@
+<form action="/login" method="POST">
+{% if error %}
+	<div class="well" style="background-color: ff4444;">
+	  <p class=error><strong>Error:</strong> {{ error }}
+	</div>
+{% endif %}
+
+<div style="width:100%; height:100%; padding-top: 100px">
+<center><div style="width: 220px; height: 300px; float:center; color: black; background-color: #F5F5F5; padding: 30;">
+	<div class="login">
+		<div class="login-screen">
+			<div class="app-title">
+				<h1>Login</h1>
+			</div>
+			<div class="login-form">
+				<div class="control-group">
+				<input type="text" class="login-field" value="" placeholder="username" name="username">
+				<label class="login-field-icon fui-user" for="login-name"></label>
+				</div>
+ 
+				<div class="control-group">
+				<input type="password" class="login-field" value="" placeholder="password" name="password">
+				<label class="login-field-icon fui-lock" for="login-pass"></label>
+				</div>
+ 
+                <input type="submit" value="Login" class="btn btn-primary btn-large btn-block" >
+			    <br>
+			</div>
+		</div>
+	</div>
+	</div></center>
+
+
+		
+  		</div>
+</form>

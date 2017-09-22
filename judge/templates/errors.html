@@ -9,8 +9,6 @@
     <div class="starter-template">
       <h1>Current Errors</h1>
       <div class="container">
-        {% for team in execute_db_query('select * from team') %}
-        <h3 class="starter-template">{{ team['team_name'] }}</h3>
         <table class="table table-condensed">
           <thead>
             <tr>
@@ -19,15 +17,14 @@
             </tr>
           </thead>
           <tbody>
-            {% for service in execute_db_query('select * from service as s join team as t on(s.team_id=t.team_id) where t.team_id = ? and 0 = (select poll_score from poll where poll.service_id = s.service_id order by poll_time DESC LIMIT 1)', [team['team_id']]) %}
+            {% for service in execute_db_query('select * from service natural join error ORDER BY error_time') %}
             <tr>
               <td>{{ service['service_name'] }}</td>
-              <td>{{ execute_db_query('select error_message from error join service on(error.service_id = service.service_id) WHERE service.service_id = ? ORDER BY error_time DESC LIMIT 1', [service['service_id']])[0]['error_message'] }}</td>
+              <td>{{ service['error_message'] }}</td>
             </tr>
           {% endfor %}
           </tbody>
         </table>
-        {% endfor %}
       </div>
     <div>
 {% include 'footer.html' %}

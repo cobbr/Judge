@@ -4,91 +4,29 @@
 # License: GNU GPLv3
 
 teams:
+  # The team that should be scored based on the functionality of this service
   - team_name : Baylor
+  - team_name : SMU
 
 services:
   # Available service_types are: dns, http, https, ftp, mail
   - service_type_name       : dns
-  # The team that should be scored based on the functionality of this service
-    team_name               : Baylor
   # A name for this service, will be displayed on the scoreboard
-    service_name            : internal dns - addns.ccdc.local
+    service_name            : Baylor DNS
   # The server IP that will be queried for this service
-    service_connection      : 172.25.21.27
+    service_connection      : 129.62.148.40
   # The domain name that this service is querying
-    service_request         : addns.ccdc.local
-  # The expected result the server should return, service will fail if result does not match expected
-    service_expected_result : 172.25.21.27
-  - service_type_name       : dns
-    team_name               : Baylor
-    service_name            : internal dns - mail.ccdc.local
-    service_connection      : 172.25.21.27
-    service_request         : mail.ccdc.local
-    service_expected_result : 172.25.21.39
-  - service_type_name       : dns
-    team_name               : Baylor
-    service_name            : internal dns - web.ccdc.local
-    service_connection      : 172.25.21.27
-    service_request         : web.ccdc.local
-    service_expected_result : 172.25.21.3
-  - service_type_name       : dns
-    team_name               : Baylor
-    service_name            : internal dns - ccdc.local
-    service_connection      : 172.25.21.27
-    service_request         : ccdc.local
-    service_expected_result : 172.25.21.100
-  - service_type_name       : dns
-    team_name               : Baylor
-    service_name            : dmz dns - www.ecomm.local
-    service_connection      : 172.25.21.23
-    service_request         : www.ecomm.local
-    service_expected_result : 172.25.21.11
-  - service_type_name       : dns
-    team_name               : Baylor
-    service_name            : dmz dns - dns.ecomm.local
-    service_connection      : 172.25.21.23
-    service_request         : dns.ecomm.local
-    service_expected_result : 172.25.21.23
-  - service_type_name       : dns
-    team_name               : Baylor
-    service_name            : dmz dns - ecomm.local
-    service_connection      : 172.25.21.23
-    service_request         : ecomm.local
-    service_expected_result : 172.25.21.100
+    service_request         : baylor.edu
   - service_type_name       : http
-    team_name               : Baylor
-    service_name            : dmz http - www.ecomm.local
+    service_name            : CS HTTP
+    service_connection      : cs.baylor.edu
+    service_request         : /~donahoo/x.html
+  - service_type_name       : https
+    service_name            : DMZ HTTPS
     service_connection      : 172.25.21.11
     service_request         : /
-    service_expected_result : data/uploads/default/www_ecomm_local
-  - service_type_name       : https
-    team_name               : Baylor
-    service_name            : dmz https - www.ecomm.local
-    service_connection      : 172.25.21.11
-    service_request         : /
-    service_expected_result : data/uploads/default/www_ecomm_local
   - service_type_name       : http
-    team_name               : Baylor
-    service_name            : internal http - web.ccdc.local
-    service_connection      : 172.25.21.3
-    service_request         : /
-  # The name of the file on the server that we will compare the result of the request to, they must match
-    service_expected_result : data/uploads/default/iis-85.html
-  - service_type_name       : https
-    team_name               : Baylor
-    service_name            : internal https - web.ccdc.local
-    service_connection      : 172.25.21.3
-    service_request         : /
-    service_expected_result : data/uploads/default/iis-85.html
-  - service_type_name       : ftp
-    team_name               : Baylor
-    service_name            : internal ftp - ftp.ccdc.local
-    service_connection      : 172.25.21.9
-    service_request         : /helloworld.txt
-    service_expected_result : data/uploads/default/helloworld.txt
-  - service_type_name       : mail
-    team_name               : Baylor
-    service_name            : internal mail - mail.ccdc.local
-    service_connection      : 172.25.21.39
-    service_request         : ccdc:ccdc@ccdc.local,ccdc@ccdc.local,message
-    service_expected_result : message
+    service_name            : CS HTTP1
+    service_connection      : cs.baylor.edu
+    service_request         : /~donahoo/
+

@@ -16,22 +16,24 @@ CREATE TABLE service_type (
 CREATE TABLE service (
     service_id INTEGER PRIMARY KEY ASC,
     service_type_id INTEGER NOT NULL,
-    team_id INTEGER NOT NULL,
     service_name TEXT NOT NULL,
     service_connection TEXT NOT NULL,
     service_request TEXT NOT NULL,
-    service_expected_result TEXT NOT NULL,
     service_active INTEGER NOT NULL DEFAULT 1,
-    FOREIGN KEY (service_type_id) REFERENCES service_type(service_type_id),
-    FOREIGN KEY (team_id) REFERENCES team(team_id)
+    service_type_name TEXT NOT NULL,
+    FOREIGN KEY (service_type_id) REFERENCES service_type(service_type_id)
 );
 
 CREATE TABLE poll (
     poll_id INTEGER PRIMARY KEY ASC,
     poll_score INTEGER NOT NULL,
     service_id INTEGER NOT NULL,
+    team_id INTEGER,
     poll_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (service_id) REFERENCES service(service_id)
+    service_type_name TEXT NOT NULL,
+    FOREIGN KEY (service_id) REFERENCES service(service_id),
+    FOREIGN KEY (team_id) REFERENCES team(team_id),
+    FOREIGN KEY (service_type_name) REFERENCES service(service_type_name)
 );
 
 CREATE TABLE error (
