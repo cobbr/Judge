@@ -29,4 +29,12 @@ services:
     service_name            : CS HTTP1
     service_connection      : cs.baylor.edu
     service_request         : /~donahoo/
+  - service_type_name       : ftp
+    service_name            : ftp baylor
+    service_connection      : 127.0.0.1
+    service_request         : None
+  - service_type_name       : mail
+    service_name            : mailtest
+    service_connection      : 127.0.0.1
+    service_request         : None
 

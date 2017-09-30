@@ -47,7 +47,7 @@
             {% set db_result = execute_db_query('select poll_score from poll where service_id = ? ORDER BY poll_time DESC LIMIT 1', [service['service_id']]) %}
             {% if db_result|length <= 0 %}
               <tr>
-            {% elif db_result[0]['poll_score'] == 0 %}
+            {% elif execute_db_query('select coalesce(sum(poll_score),0) as s FROM poll WHERE poll.service_type_name = ? and poll.team_id = ?', [service['service_type_name'],team['team_id']])[0]['s'] == 0%}
               <tr class='danger'>
             {% else %}
               <tr class='success'>
