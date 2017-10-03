@@ -59,8 +59,8 @@
           {% endfor %}
             <tr>
               <td><b>Total</b></td>
-              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as s FROM poll join service on(poll.service_type_name = service.service_type_name) WHERE poll.team_id = ?',[team['team_id']])[0]['s'] }}</b></td>
-              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as c FROM poll join service on(poll.service_type_name = service.service_type_name)')[0]['c'] }}</b></td>
+              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as s FROM poll join service on(poll.service_id = service.service_id) WHERE poll.team_id = ?',[team['team_id']])[0]['s'] }}</b></td>
+              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as c FROM poll join service on(poll.service_id = service.service_id)')[0]['c'] }}</b></td>
             </tr>
           </tbody>
         </table>

@@ -200,12 +200,12 @@ def poll_mail(poll_timeout, service_id, service_connection, service_request):
                 
             except Exception as e:
                 execute_db_query('insert into error(service_id,error_message) values(?,?)', [service_id, 'SMTP Request resulted in exception: ' + repr(e)])
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'mail'])
+                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(0,?,?)', [service_id,'mail'])
                 return
-            if match:
+            if match== False:
                 execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'mail'])
-            else:
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'mail'])
+            #else:
+             #   execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'mail'])
         except Exception as e:
             execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'Mail request resulted in exception: ' + repr(e)])
             execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'mail'])
