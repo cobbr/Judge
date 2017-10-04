@@ -12,7 +12,7 @@ from ftplib import FTP
 import dns.resolver, requests, difflib, poplib
 from dns.exception import DNSException
 from StringIO import StringIO
-from smtplib import SMTP 
+from smtplib import SMTP
 import os.path
 from time import sleep
 
@@ -26,8 +26,7 @@ timeout = app.conf['POLL_TIMEOUT']
 
 def poll():
     """
-    Iterates over all the active services in the database and attempt to execute that service's functionality.
-    The success or failure of the service and any error messages are stored in the database.
+    Iterates over all the active services in the database and attempt to execute that service's functionality. The success or failure of the service and any error messages are stored in the database.
     """
     for service in execute_db_query('select * from service where service_active = 1'):
         sleep(2)
@@ -60,30 +59,26 @@ def poll_dns(poll_timeout, service_id, service_connection, service_request):
                 resolv.lifetime = poll_timeout
                 answers = resolv.query(service_request, 'TXT')
                 for rdata in answers:
-                    result += rdata.to_text()
+                    result += rdata.to_text().lower()
                 print(result)
             except DNSException:
                 execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'DNS Timeout on request for: ' + service_request + ' using server: ' + service_connection])
-                
             match = False
             for team in execute_db_query('select * from team'):
-                print(team)
-                if match == False:
-                    if team['team_name'] in result:
-                        execute_db_query('insert into poll(poll_score, service_id, team_id,service_type_name) values(1,?,?,?)', [service_id,team['team_id'],"dns"]);
-                        match = True
-                        print("Found")
-                        break
+                if team['team_name'].lower() in result:
+                    execute_db_query('insert into poll(poll_score, service_id, team_id, service_type_name) values(1,?,?,?)', [service_id,team['team_id'],"dns"]);
+                    match = True
+                    break
             if not match:
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,"dns"])
+                execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,"dns"])
 
         except Exception as e:
             execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'DNS Request resulted in exception: ' + repr(e)])
-            execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,"dns"])
+            execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,"dns"])
             pass
     except SoftTimeLimitExceeded:
         execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'Task timed out. No error message received.'])
-        execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,"dns"])
+        execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,"dns"])
 
 @app.task(soft_time_limit=6)
 def poll_web(poll_timeout, service_id, service_type, service_connection, service_request,type1):
@@ -92,41 +87,40 @@ def poll_web(poll_timeout, service_id, service_type, service_connection, service
             try:
                 result = s.get(service_type + '://' + service_connection + service_request, timeout=poll_timeout, verify=False).text
             except requests.exceptions.Timeout as e:
-                execute_db_query('insert into error(service_id,error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in a Timeout exception: ' + repr(e)])
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,type1])
+                execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in a Timeout exception: ' + repr(e)])
+                execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,type1])
                 return
             except requests.exceptions.ConnectionError as e:
-                execute_db_query('insert into error(service_id,error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in a ConnectionError exception: ' + repr(e) + '. This could be thre result of DNS failure, a refused connection, etc.'])
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,type1])
+                execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in a ConnectionError exception: ' + repr(e) + '. This could be thre result of DNS failure, a refused connection, etc.'])
+                execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,type1])
                 return
             except requests.exceptions.HTTPError as e:
-                execute_db_query('insert into error(service_id,error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in a HTTPError exception: ' + repr(e) + '. This means the HTTP response returned an unsuccessful status code.'])
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,type1])
+                execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in a HTTPError exception: ' + repr(e) + '. This means the HTTP response returned an unsuccessful status code.'])
+                execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,type1])
                 return
             except requests.exceptions.TooManyRedirects as e:
-                execute_db_query('insert into error(service_id,error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in a TooManyRedirects exception: ' + repr(e)])
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,type1])
+                execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in a TooManyRedirects exception: ' + repr(e)])
+                execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,type1])
                 return
             except requests.exceptions.RequestException as e:
-                execute_db_query('insert into error(service_id,error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in an unknown request exception: ' + repr(e)])
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,type1])
+                execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in an unknown request exception: ' + repr(e)])
+                execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,type1])
                 return
             match = False
             for team in execute_db_query('select * from team'):
-                if match == False:
-                    if team['team_name'] in result:
-                        execute_db_query('insert into poll(poll_score, service_id, team_id,service_type_name) values(1,?,?,?)', [service_id,team['team_id'],type1]);
-                        match = True
-                        break
+                if team['team_name'] in result:
+                    execute_db_query('insert into poll(poll_score, service_id, team_id, service_type_name) values(1,?,?,?)', [service_id,team['team_id'],type1]);
+                    match = True
+                    break
             if not match:
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,type1])
+                execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,type1])
         except Exception as e:
-            execute_db_query('insert into error(service_id,error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in exception: ' + repr(e)])
-            execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,type1])
+            execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'HTTP(S) Request resulted in exception: ' + repr(e)])
+            execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,type1])
             pass
     except SoftTimeLimitExceeded:
         execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'Task timed out. No error message received.'])
-        execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,type1])
+        execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,type1])
 
 # TODO: improved exception handling for FTP
 @app.task(soft_time_limit=6)
@@ -135,43 +129,15 @@ def poll_ftp(poll_timeout, service_id, service_connection, service_request):
         try:
             match = False
             ftp = FTP(host=service_connection, timeout=(poll_timeout*2))
-            bk=ftp.getwelcome()
-            match=False
-
+            ftp_headers = ftp.getwelcome()
+            
             for team in execute_db_query('select * from team'):
-                if match==False:
-                    if team['team_name'] in bk:
-                        execute_db_query('insert into poll(poll_score,service_id,team_id,service_type_name) values(1,?,?,?)', [service_id,team['team_id'],'ftp'])
-                        match=True
-                #if match== True:
-                    #break
-            
-            if match == False:
-                if bk != None:
-                    execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'ftp'])
-
-           # bk=ftp.login()
-            #bk=ftp.getWelcome()
-            
-            #resultStringIO = StringIO()
-            #print resultStringIO
-            '''ftp.retrbinary('RETR ' + service_request, resultStringIO.write)
-            result = resultStringIO.getvalue()
-            if os.path.isfile(service_expected_result):
-                upload = open(service_expected_result, 'r')
-                service_expected_result = upload.read()
-                upload.close()
-                if result == service_expected_result:
+                if team['team_name'] in ftp_headers:
+                    execute_db_query('insert into poll(poll_score,service_id,team_id,service_type_name) values(1,?,?,?)', [service_id,team['team_id'],'ftp'])
                     match = True
-                else:
-                    diff = difflib.unified_diff(service_expected_result, result)
-                    execute_db_query('insert into error(service_id,error_message) values(?,?)', [service_id, 'FTP Request result did not match expected. Diff: \n' + ''.join(diff)])
-            else:
-                execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'Local filename for expected result: ' + service_expected_result + ' does not exist.'])
-            if match:
+                    break
+            if not match and ftp_headers:
                 execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'ftp'])
-            else:
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(0,?,?)', [service_id,'ftp'])'''
         except Exception as e:
             execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'FTP request resulted in exception: ' + repr(e)])
             execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'ftp'])
@@ -184,32 +150,21 @@ def poll_ftp(poll_timeout, service_id, service_connection, service_request):
 @app.task(soft_time_limit=6)
 def poll_mail(poll_timeout, service_id, service_connection, service_request):
     try:
+        match = False
         try:
-            match = False
-
-            try:
-                #smtpServer = smtplib.SMTP(service_connection,timeout=(poll_timeout*2))
-                smtpServer=SMTP(service_connection,timeout=(poll_timeout*2))
-                bk=smtpServer.helo(service_connection)
-                for team in execute_db_query('select * from team'):
-                    if match == False:
-                        if team['team_name'] in bk[1]:
-                            execute_db_query('insert into poll(poll_score,service_id,team_id,service_type_name) values(1,?,?,?)', [service_id,team['team_id'],'mail'])
-                            match=True
-                            break
-                
-            except Exception as e:
-                execute_db_query('insert into error(service_id,error_message) values(?,?)', [service_id, 'SMTP Request resulted in exception: ' + repr(e)])
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(0,?,?)', [service_id,'mail'])
-                return
-            if match== False:
-                execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'mail'])
-            #else:
-             #   execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'mail'])
+            smtpServer=SMTP(service_connection,timeout=(poll_timeout*2))
+            smtp_headers = smtpServer.helo(service_connection)
+            for team in execute_db_query('select * from team'):
+                if team['team_name'].lower() in bk[1].lower():
+                    execute_db_query('insert into poll(poll_score, service_id, team_id, service_type_name) values(1,?,?,?)', [service_id,team['team_id'],'mail'])
+                    match = True
+                    break
         except Exception as e:
-            execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'Mail request resulted in exception: ' + repr(e)])
-            execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'mail'])
-            pass
+            execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'SMTP Request resulted in exception: ' + repr(e)])
+            execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(0,?,?)', [service_id,'mail'])
+            return
+        if not match:
+            execute_db_query('insert into poll(poll_score, service_id, service_type_name) values(1,?,?)', [service_id,'mail'])
     except SoftTimeLimitExceeded:
         execute_db_query('insert into error(service_id, error_message) values(?,?)', [service_id, 'Task timed out. No error message received.'])
         execute_db_query('insert into poll(poll_score,service_id,service_type_name) values(1,?,?)', [service_id,'mail'])
