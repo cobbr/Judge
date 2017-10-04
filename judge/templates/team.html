@@ -45,7 +45,7 @@
             {% set db_result = execute_db_query('select team_id from poll where service_id = ? ORDER BY poll_time DESC LIMIT 1', [service['service_id']]) %}
             {% if db_result|length <= 0 %}
               <tr>
-            {% elif db_result != team['team_id'] %}
+            {% elif execute_db_query('select team_id from poll where service_id = ? ORDER BY poll_time DESC LIMIT 1', [service['service_id']])[0]['team_id'] != team['team_id'] %}
               <tr class='danger'>
             {% else %}
               <tr class='success'>
