@@ -155,7 +155,7 @@ def poll_mail(poll_timeout, service_id, service_connection, service_request):
             smtpServer=SMTP(service_connection,timeout=(poll_timeout*2))
             smtp_headers = smtpServer.helo(service_connection)
             for team in execute_db_query('select * from team'):
-                if team['team_name'].lower() in bk[1].lower():
+                if team['team_name'].lower() in smtp_headers[1].lower():
                     execute_db_query('insert into poll(poll_score, service_id, team_id, service_type_name) values(1,?,?,?)', [service_id,team['team_id'],'mail'])
                     match = True
                     break
