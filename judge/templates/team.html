@@ -42,23 +42,23 @@
           </thead>
           <tbody>
           {% for service in execute_db_query('select * from service') %}
-            {% set db_result = execute_db_query('select poll_score from poll where service_id = ? ORDER BY poll_time DESC LIMIT 1', [service['service_id']]) %}
+            {% set db_result = execute_db_query('select team_id from poll where service_id = ? ORDER BY poll_time DESC LIMIT 1', [service['service_id']) %}
             {% if db_result|length <= 0 %}
               <tr>
-            {% elif execute_db_query('select coalesce(sum(poll_score),0) as s FROM poll WHERE poll.service_type_name = ? and poll.team_id = ?', [service['service_type_name'],team['team_id']])[0]['s'] == 0 %}
+            {% elif db_result != team['team_id'] %}
               <tr class='danger'>
             {% else %}
               <tr class='success'>
             {% endif %}
               <td>{{ service['service_name'] }}</td>
-              <td>{{ execute_db_query('select coalesce(sum(poll_score),0) as s FROM poll WHERE poll.service_id = ? and poll.team_id = ?', [service['service_id'],team['team_id']])[0]['s'] }}</td>
-              <td>{{ execute_db_query('select coalesce(sum(poll_score),0) as c FROM poll WHERE poll.service_id = ?', [service['service_id']])[0]['c'] }}</td>
+              <td>{{ execute_db_query('select coalesce(sum(poll_score),0) as score FROM poll WHERE poll.service_id = ? and poll.team_id = ?', [service['service_id'],team['team_id']])[0]['score'] }}</td>
+              <td>{{ execute_db_query('select coalesce(sum(poll_score),0) as total FROM poll WHERE poll.service_id = ?', [service['service_id']])[0]['total'] }}</td>
             </tr>
           {% endfor %}
             <tr>
               <td><b>Total</b></td>
-              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as s FROM poll join service on(poll.service_id = service.service_id) WHERE poll.team_id = ?',[team['team_id']])[0]['s'] }}</b></td>
-              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as c FROM poll join service on(poll.service_id = service.service_id)')[0]['c'] }}</b></td>
+              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as score FROM poll join service on(poll.service_id = service.service_id) WHERE poll.team_id = ?',[team['team_id']])[0]['score'] }}</b></td>
+              <td><b>{{ execute_db_query('select coalesce(sum(poll_score),0) as total FROM poll join service on(poll.service_id = service.service_id)')[0]['total'] }}</b></td>
             </tr>
           </tbody>
         </table>
