@@ -19,11 +19,11 @@
             </tr>
           </thead>
           <tbody>
-          {% for team in execute_db_query('select team.team_name, team.team_id, coalesce(sum(poll_score),0) as s from team left join poll on(team.team_id=poll.team_id) group by team.team_name, team.team_id order by s DESC') %}
+          {% for team in execute_db_query('select team.team_name, team.team_id, coalesce(sum(poll_score),0) as score from team left join poll on(team.team_id=poll.team_id) group by team.team_name, team.team_id order by score DESC') %}
             <tr>
               <td>{{ loop.index }}. {{ team['team_name'] }}</td>
-              <td>{{ team['s'] }}</td>
-              <td>{{ execute_db_query('select coalesce(sum(poll_score),0) as c FROM poll')[0]['c']}}</td>
+              <td>{{ team['score'] }}</td>
+              <td>{{ execute_db_query('select coalesce(sum(poll_score),0) as total FROM poll')[0]['total']}}</td>
             </tr>
           {% endfor %}
           </tbody>
